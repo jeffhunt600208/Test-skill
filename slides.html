@@ -9,14 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Archivo:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#14110d;
-    --paper:#f1ebdf;
-    --paper2:#e9e1d1;
-    --accent:#bf2118;       /* 杂志红 */
-    --accent2:#1d3a5c;       /* 深航蓝 — 对照色 */
+    --ink:#11140f;
+    --paper:#eef0e9;
+    --paper2:#e3e6dd;
+    --accent:#1b3a63;       /* 深航蓝 — 主色 */
+    --accent-lt:#7fb0e0;     /* 浅航蓝 — 深底高亮 */
+    --accent2:#bf2118;       /* 杂志红 — 对照色 */
     --gold:#a9802b;
-    --muted:#8a8071;
-    --line:#d6cdbc;
+    --muted:#86847a;
+    --line:#cfd2c8;
     --serif:"Noto Serif SC","Playfair Display",Georgia,serif;
     --sans:"Noto Sans SC","Archivo",-apple-system,sans-serif;
     --display:"Playfair Display","Noto Serif SC",serif;
@@ -50,10 +51,10 @@
   .cover .mast{display:flex;justify-content:space-between;align-items:center;font-size:12px;
     letter-spacing:.32em;text-transform:uppercase;color:#b2a994;
     border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:16px}
-  .cover .mast .iss{color:#ff6155;font-weight:800}
+  .cover .mast .iss{color:var(--accent-lt);font-weight:800}
   .cover .big{font-family:var(--display);font-weight:900;letter-spacing:-.02em}
   .cover .eq{font-size:172px;line-height:.82;display:flex;align-items:baseline;gap:.12em}
-  .cover .eq em{font-style:italic;color:var(--accent);font-size:88px}
+  .cover .eq em{font-style:italic;color:var(--accent-lt);font-size:88px}
   .cover h1{font-family:var(--serif);font-weight:900;font-size:66px;line-height:1.08;margin-top:14px}
   .cover h1 mark{background:var(--accent);color:#fff;padding:0 .14em}
   .cover .midrule{display:flex;align-items:center;gap:18px;margin:30px 0 4px;color:#b2a994;
@@ -67,10 +68,10 @@
   /* 02 大命题 */
   .thesis{background:var(--accent);color:#fff}.thesis::after{opacity:.05}
   .thesis .pad{display:flex;flex-direction:column;justify-content:center;gap:30px}
-  .thesis .kicker{color:#ffd2cc}
+  .thesis .kicker{color:#cdddf0}
   .thesis .q{font-family:var(--display);font-weight:900;font-size:104px;line-height:1;letter-spacing:-.01em}
   .thesis .q .mk{font-size:130px;opacity:.4;line-height:0;margin-right:.05em}
-  .thesis .lead{font-family:var(--serif);font-size:23px;line-height:1.7;max-width:880px;color:#ffeae7}
+  .thesis .lead{font-family:var(--serif);font-size:23px;line-height:1.7;max-width:880px;color:#dde7f3}
   .thesis .lead b{color:#fff}
 
   /* 通用目录/分栏 */
@@ -86,12 +87,12 @@
   .ed{display:grid;grid-template-columns:1.05fr .95fr}
   .ed .left{background:var(--ink);color:var(--paper);position:relative}
   .ed .left .pad{inset:58px 56px}
-  .ed .left .kicker{color:#ffb3ac}
+  .ed .left .kicker{color:var(--accent-lt)}
   .ed .vs{margin-top:34px;display:flex;flex-direction:column;gap:24px}
-  .ed .vs .row{border-left:3px solid var(--accent);padding-left:20px}
+  .ed .vs .row{border-left:3px solid var(--accent-lt);padding-left:20px}
   .ed .vs .tag{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8af9d}
   .ed .vs .txt{font-family:var(--serif);font-size:21px;line-height:1.4;margin-top:6px}
-  .ed .vs .txt b{color:#ff7a6e}
+  .ed .vs .txt b{color:var(--accent-lt)}
   .ed .right .pad{inset:56px 60px}
   .ed .right h2{font-family:var(--display);font-size:46px;font-weight:900;line-height:1.05;margin-top:18px}
   .ed .body{font-family:var(--serif);font-size:17px;line-height:1.85;margin-top:22px}
@@ -121,7 +122,7 @@
   .split .fig{background:var(--ink);color:var(--paper);padding:30px 30px 26px;height:100%;
     display:flex;flex-direction:column;justify-content:center;position:relative}
   .flow{font-family:"Archivo",var(--sans);font-size:13.5px;line-height:1.5;white-space:pre;color:#e7e0d0;letter-spacing:.02em}
-  .flow .a{color:#ff7a6e;font-weight:700}.flow .b{color:#7fa9d6;font-weight:700}
+  .flow .a{color:#e8896f;font-weight:700}.flow .b{color:var(--accent-lt);font-weight:700}
   .points{display:flex;flex-direction:column;gap:18px}
   .points .p{display:flex;gap:16px}
   .points .p .i{font-family:var(--display);font-size:30px;color:var(--accent);font-weight:700;line-height:1}
@@ -135,14 +136,14 @@
   .math h2{font-family:var(--display);font-size:46px;font-weight:900;margin-top:8px}
   .math .grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
   .math .box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);padding:26px 30px}
-  .math .lab{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:#ffb3ac;font-weight:700}
+  .math .lab{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--accent-lt);font-weight:700}
   .math .eq{font-size:42px;margin:16px 0;display:flex;align-items:center;gap:.25em;color:#fff}
   .math .eq .frac{font-size:30px}
   .math .note{font-size:15px;line-height:1.7;color:#d8d0c0}
   .math .chain{display:flex;flex-direction:column;gap:14px;font-family:var(--serif);font-size:19px;line-height:1.4}
   .math .chain .s{display:flex;gap:14px;align-items:baseline}
-  .math .chain .s .ar{color:var(--accent);font-weight:800;font-size:22px}
-  .math .chain .s b{color:#ff7a6e}
+  .math .chain .s .ar{color:var(--accent-lt);font-weight:800;font-size:22px}
+  .math .chain .s b{color:var(--accent-lt)}
   .math .punch{font-family:var(--display);font-style:italic;font-weight:700;font-size:30px;
     color:var(--gold);margin-top:6px;line-height:1.2}
 
@@ -161,17 +162,17 @@
   /* 协调 虚实 */
   .dual .cols{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:stretch}
   .dual .card{padding:28px 30px;height:100%}
-  .dual .card.real{background:rgba(31,58,95,.07);border-left:5px solid var(--accent2)}
-  .dual .card.fake{background:rgba(196,39,29,.06);border-left:5px solid var(--accent)}
+  .dual .card.real{background:rgba(27,58,99,.08);border-left:5px solid var(--accent)}
+  .dual .card.fake{background:rgba(191,33,24,.06);border-left:5px solid var(--accent2)}
   .dual .card .lab{font-family:var(--display);font-size:34px;font-weight:900}
-  .dual .card.real .lab{color:var(--accent2)}.dual .card.fake .lab{color:var(--accent)}
+  .dual .card.real .lab{color:var(--accent)}.dual .card.fake .lab{color:var(--accent2)}
   .dual .card .sub{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:4px 0 18px}
   .dual .card p{font-family:var(--serif);font-size:16.5px;line-height:1.7}
   .dual .card p+p{margin-top:12px}
   .dual .card b{color:var(--ink)}
   .dual .bottom{margin-top:auto;background:var(--ink);color:var(--paper);padding:20px 28px;
     font-family:var(--serif);font-size:19px;line-height:1.5}
-  .dual .bottom b{color:#ff8377}
+  .dual .bottom b{color:var(--accent-lt)}
 
   /* 判形门 4 输出 */
   .gate .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 30px}
@@ -183,9 +184,9 @@
   /* 封底 */
   .back{background:var(--ink);color:var(--paper)}.back::after{opacity:.06}
   .back .pad{display:flex;flex-direction:column;justify-content:space-between}
-  .back .kicker{color:#ffb3ac}
+  .back .kicker{color:var(--accent-lt)}
   .back .big{font-family:var(--display);font-size:74px;font-weight:900;line-height:1.04;margin-top:14px}
-  .back .big em{font-style:italic;color:var(--accent)}
+  .back .big em{font-style:italic;color:var(--accent-lt)}
   .back .kw{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
   .back .kw span{font-size:13px;letter-spacing:.08em;border:1px solid rgba(255,255,255,.28);
     padding:7px 15px;color:#e7e0d0}
@@ -265,8 +266,8 @@
             <div class="txt">走向极端严苛的 <b>10<sup>−9</sup></b> 阵营,要求与大型干线客机看齐。</div></div>
           <div class="row"><div class="tag">通俗叙述 · FAA</div>
             <div class="txt">坚守务实的 <b>10<sup>−8</sup></b> 阵营,为新兴工业留出创新冗余。</div></div>
-          <div class="row" style="border-color:#ff7a6e">
-            <div class="tag" style="color:#ff7a6e">本文判断</div>
+          <div class="row" style="border-color:#e8896f">
+            <div class="tag" style="color:#e8896f">本文判断</div>
             <div class="txt">这是一种严重的<b>直观误读</b>,错置了适航审定的因果传导链条。</div></div>
         </div>
       </div>
@@ -327,12 +328,12 @@
         </tbody>
       </table>
       <div class="split" style="margin-top:22px;grid-template-columns:1fr 1fr;gap:30px;align-items:stretch">
-        <div style="background:rgba(31,58,95,.07);border-left:4px solid var(--accent2);padding:16px 20px">
-          <div class="kicker" style="color:var(--accent2)">EASA · 一票否决</div>
+        <div style="background:rgba(27,58,99,.08);border-left:4px solid var(--accent);padding:16px 20px">
+          <div class="kicker" style="color:var(--accent)">EASA · 一票否决</div>
           <div style="font-family:var(--serif);font-size:16px;line-height:1.6;margin-top:8px">锁死 10<sup>−9</sup> 的判据,不取决于载客人数,而取决于"<b>在拥挤人群上空商业运营</b>"这一空间特征。</div>
         </div>
-        <div style="background:rgba(196,39,29,.06);border-left:4px solid var(--accent);padding:16px 20px">
-          <div class="kicker">FAA · 高暴露端收敛</div>
+        <div style="background:rgba(191,33,24,.06);border-left:4px solid var(--accent2);padding:16px 20px">
+          <div class="kicker" style="color:var(--accent2)">FAA · 高暴露端收敛</div>
           <div style="font-family:var(--serif);font-size:16px;line-height:1.6;margin-top:8px">Powered-Lift 安全连续体同样按"座位数 + 运行类别"分级,最高暴露端<b>同样拨到 ≤ 10<sup>−9</sup></b>。</div>
         </div>
       </div>
