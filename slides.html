@@ -9,13 +9,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Archivo:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#181410;
-    --paper:#f4efe6;
-    --accent:#c4271d;       /* 杂志红 */
-    --accent2:#1f3a5f;       /* 深航蓝 — 对照色 */
-    --gold:#b88a2e;
-    --muted:#8c8273;
-    --line:#d2cabb;
+    --ink:#14110d;
+    --paper:#f1ebdf;
+    --paper2:#e9e1d1;
+    --accent:#bf2118;       /* 杂志红 */
+    --accent2:#1d3a5c;       /* 深航蓝 — 对照色 */
+    --gold:#a9802b;
+    --muted:#8a8071;
+    --line:#d6cdbc;
     --serif:"Noto Serif SC","Playfair Display",Georgia,serif;
     --sans:"Noto Sans SC","Archivo",-apple-system,sans-serif;
     --display:"Playfair Display","Noto Serif SC",serif;
@@ -44,20 +45,24 @@
   .var{font-family:var(--serif);font-style:italic}
 
   /* 01 封面 */
-  .cover{background:var(--ink);color:var(--paper)}.cover::after{opacity:.06}
-  .cover .pad{display:flex;flex-direction:column;justify-content:space-between}
-  .cover .mast{display:flex;justify-content:space-between;font-size:12.5px;letter-spacing:.3em;
-    text-transform:uppercase;color:#b8af9d}
-  .cover .mast .iss{color:var(--accent);font-weight:800}
-  .cover .big{font-family:var(--display);font-weight:900;letter-spacing:-.01em}
-  .cover .eq{font-size:140px;line-height:.9}
-  .cover .eq em{font-style:italic;color:var(--accent)}
-  .cover h1{font-family:var(--serif);font-weight:900;font-size:62px;line-height:1.12;margin-top:6px}
-  .cover h1 mark{background:var(--accent);color:var(--paper);padding:0 .12em}
-  .cover .sub{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
-  .cover .sub p{font-family:var(--serif);font-size:18px;max-width:680px;line-height:1.6;color:#e7e0d0}
-  .cover .sub .meta{text-align:right;font-size:12px;letter-spacing:.22em;color:#b8af9d;
-    text-transform:uppercase;white-space:nowrap}
+  .cover{background:var(--ink);color:var(--paper)}.cover::after{opacity:.07}
+  .cover .pad{inset:54px 64px;display:flex;flex-direction:column;justify-content:space-between}
+  .cover .mast{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+    letter-spacing:.32em;text-transform:uppercase;color:#b2a994;
+    border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:16px}
+  .cover .mast .iss{color:#ff6155;font-weight:800}
+  .cover .big{font-family:var(--display);font-weight:900;letter-spacing:-.02em}
+  .cover .eq{font-size:172px;line-height:.82;display:flex;align-items:baseline;gap:.12em}
+  .cover .eq em{font-style:italic;color:var(--accent);font-size:88px}
+  .cover h1{font-family:var(--serif);font-weight:900;font-size:66px;line-height:1.08;margin-top:14px}
+  .cover h1 mark{background:var(--accent);color:#fff;padding:0 .14em}
+  .cover .midrule{display:flex;align-items:center;gap:18px;margin:30px 0 4px;color:#b2a994;
+    font-size:12px;letter-spacing:.3em;text-transform:uppercase}
+  .cover .midrule::before,.cover .midrule::after{content:"";height:1px;background:rgba(255,255,255,.22);flex:1}
+  .cover .sub{display:flex;justify-content:space-between;align-items:flex-end;gap:44px}
+  .cover .sub p{font-family:var(--serif);font-size:17.5px;max-width:680px;line-height:1.65;color:#e3dccb}
+  .cover .sub .meta{text-align:right;font-size:11.5px;letter-spacing:.24em;color:#b2a994;
+    text-transform:uppercase;white-space:nowrap;line-height:1.9}
 
   /* 02 大命题 */
   .thesis{background:var(--accent);color:#fff}.thesis::after{opacity:.05}
@@ -208,13 +213,14 @@
   <section class="slide cover">
     <div class="pad">
       <div class="mast">
-        <span>适航安全研究 · AIRWORTHINESS</span>
+        <span>适航安全研究 · Airworthiness</span>
         <span class="iss">eVTOL 专题 — 2026</span>
         <span>Form-Judgment</span>
       </div>
       <div>
         <div class="big eq">10<sup>−8</sup> <em>vs</em> 10<sup>−9</sup></div>
         <h1>之争,本质是<mark>判形</mark>之争</h1>
+        <div class="midrule">Form-Judgment Precedes Certification-Baseline Selection</div>
       </div>
       <div class="sub">
         <p>电动垂直起降航空器(eVTOL)适航中的灾难性失效概率目标分歧,长期被简化为"FAA 用 10<sup>−8</sup>、EASA 用 10<sup>−9</sup>"的平直对立。本文指出:这一叙述在事实层面不成立,在机理层面错置了因果。</p>
