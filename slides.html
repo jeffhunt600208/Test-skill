@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杂志风 PPT · MAGAZINE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Archivo:wght@400;600;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1714;        /* 近黑墨色 */
+    --paper:#f4f0e8;      /* 米白纸张 */
+    --accent:#d8442f;     /* 杂志红 */
+    --muted:#8a8175;      /* 灰调辅助色 */
+    --line:#cdc6b8;       /* 分隔线 */
+    --serif:"Noto Serif SC","Playfair Display",Georgia,serif;
+    --sans:"Noto Sans SC","Archivo",-apple-system,sans-serif;
+    --display:"Playfair Display","Noto Serif SC",serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#0e0c0a;color:var(--ink);font-family:var(--sans)}
+
+  /* ---------- 幻灯片容器：每页 16:9 ---------- */
+  .deck{display:flex;flex-direction:column;align-items:center;gap:28px;padding:40px 0}
+  .slide{
+    position:relative;width:1280px;height:720px;background:var(--paper);
+    overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);
+    page-break-after:always;
+  }
+  /* 纸张纹理：极淡颗粒 */
+  .slide::after{
+    content:"";position:absolute;inset:0;pointer-events:none;opacity:.04;
+    background:radial-gradient(circle at 20% 30%, #000 0.5px, transparent 0.6px) 0 0/4px 4px;
+  }
+  .pad{position:absolute;inset:64px}
+
+  /* ---------- 通用版式元件 ---------- */
+  .runhead{display:flex;justify-content:space-between;align-items:center;
+    font-family:var(--sans);font-size:13px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:14px}
+  .runhead b{color:var(--accent);font-weight:800}
+  .folio{position:absolute;left:64px;bottom:40px;font-size:13px;letter-spacing:.2em;color:var(--muted)}
+  .folio-r{left:auto;right:64px}
+  .kicker{font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);font-weight:700}
+  .rule{height:3px;width:60px;background:var(--ink)}
+  .serif{font-family:var(--serif)}
+  .display{font-family:var(--display)}
+
+  /* ====== 01 封面 ====== */
+  .cover{background:var(--ink);color:var(--paper)}
+  .cover::after{opacity:.06}
+  .cover .pad{display:flex;flex-direction:column;justify-content:space-between}
+  .cover .mast{display:flex;justify-content:space-between;align-items:flex-start;
+    font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#bdb4a4}
+  .cover .mast .iss{color:var(--accent);font-weight:800}
+  .cover h1{font-family:var(--display);font-weight:900;font-size:150px;line-height:.92;
+    letter-spacing:-.02em}
+  .cover h1 em{font-style:italic;color:var(--accent)}
+  .cover .sub{display:flex;justify-content:space-between;align-items:flex-end}
+  .cover .sub p{font-family:var(--serif);font-size:22px;max-width:560px;line-height:1.5;color:#e7e0d2}
+  .cover .sub .date{text-align:right;font-size:13px;letter-spacing:.25em;color:#bdb4a4;text-transform:uppercase}
+
+  /* ====== 02 目录 ====== */
+  .toc .pad{display:grid;grid-template-rows:auto 1fr;gap:42px}
+  .toc h2{font-family:var(--display);font-size:88px;font-weight:900;line-height:1}
+  .toc .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 80px;align-self:center}
+  .toc .item{display:flex;gap:24px;align-items:baseline;padding:22px 0;border-top:1px solid var(--line)}
+  .toc .num{font-family:var(--display);font-size:30px;color:var(--accent);font-weight:700;min-width:54px}
+  .toc .tt{font-family:var(--serif);font-size:26px;font-weight:600}
+  .toc .desc{font-size:14px;color:var(--muted);margin-top:4px}
+
+  /* ====== 03 卷首语 / 大引文 ====== */
+  .feature{display:grid;grid-template-columns:1.1fr .9fr}
+  .feature .left{background:var(--accent);color:var(--paper);position:relative}
+  .feature .left .pad{inset:64px}
+  .feature .left .kicker{color:#ffd9cf}
+  .feature .quote{font-family:var(--display);font-style:italic;font-weight:700;
+    font-size:54px;line-height:1.15;margin-top:30px}
+  .feature .quote .mark{font-size:120px;line-height:0;display:block;height:60px;opacity:.6}
+  .feature .by{position:absolute;left:64px;bottom:56px;font-size:14px;letter-spacing:.2em;text-transform:uppercase}
+  .feature .right{position:relative}
+  .feature .right .pad{inset:56px 64px}
+  .feature .right .runhead{border-color:rgba(0,0,0,.2)}
+  .feature .body{column-count:1;font-family:var(--serif);font-size:18px;line-height:1.8;margin-top:28px}
+  .feature .body p{margin-bottom:18px;text-align:justify}
+  .feature .body p:first-child::first-letter{
+    font-family:var(--display);font-size:84px;float:left;line-height:.72;
+    padding:8px 14px 0 0;color:var(--accent);font-weight:900}
+
+  /* ====== 04 图文跨页 ====== */
+  .spread .pad{display:grid;grid-template-rows:auto 1fr;gap:30px}
+  .spread .head h2{font-family:var(--display);font-size:64px;font-weight:900;line-height:1.02;margin-top:14px}
+  .spread .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;align-items:stretch}
+  .spread .card{display:flex;flex-direction:column}
+  .spread .ph{flex:1;background:
+    linear-gradient(135deg,#2a2620,#4a4338);position:relative;min-height:230px;overflow:hidden}
+  .spread .ph::before{content:"图片占位 · IMAGE";position:absolute;inset:0;display:flex;
+    align-items:center;justify-content:center;color:#b9af9d;font-size:13px;letter-spacing:.25em}
+  .spread .ph.alt{background:linear-gradient(135deg,var(--accent),#7a2317)}
+  .spread .cap{margin-top:14px}
+  .spread .cap .t{font-family:var(--serif);font-size:19px;font-weight:600}
+  .spread .cap .d{font-size:14px;color:var(--muted);line-height:1.6;margin-top:6px}
+
+  /* ====== 05 数据 ====== */
+  .stats{background:var(--ink);color:var(--paper)}
+  .stats::after{opacity:.06}
+  .stats .runhead{color:#bdb4a4;border-color:rgba(255,255,255,.15)}
+  .stats .pad{display:grid;grid-template-rows:auto auto 1fr;gap:34px}
+  .stats h2{font-family:var(--display);font-size:60px;font-weight:900}
+  .stats .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;align-self:center}
+  .stats .cell{padding:0 40px;border-left:1px solid rgba(255,255,255,.16)}
+  .stats .cell:first-child{padding-left:0;border-left:none}
+  .stats .big{font-family:var(--display);font-size:96px;font-weight:900;line-height:1;color:var(--accent)}
+  .stats .big small{font-size:34px;color:var(--paper)}
+  .stats .lbl{margin-top:16px;font-size:16px;line-height:1.6;color:#e7e0d2}
+  .stats .lbl b{display:block;font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:#bdb4a4;margin-bottom:6px}
+
+  /* ====== 06 封底 ====== */
+  .back .pad{display:flex;flex-direction:column;justify-content:space-between}
+  .back .big{font-family:var(--display);font-size:104px;font-weight:900;line-height:.98;letter-spacing:-.02em}
+  .back .big em{font-style:italic;color:var(--accent)}
+  .back .foot{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--line);padding-top:24px}
+  .back .foot p{font-family:var(--serif);font-size:18px;max-width:480px;line-height:1.6}
+  .back .foot .tag{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);text-align:right}
+
+  /* ---------- 屏幕播放模式 ---------- */
+  body.present{background:#000;overflow:hidden}
+  body.present .deck{padding:0;gap:0}
+  body.present .slide{display:none;box-shadow:none;
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(var(--s,1))}
+  body.present .slide.active{display:block}
+
+  .hint{position:fixed;right:18px;bottom:14px;z-index:50;color:#8a8175;font-size:12px;
+    letter-spacing:.15em;font-family:var(--sans)}
+  body.present .hint{color:#555}
+
+  /* ---------- 打印 / 导出 PDF ---------- */
+  @media print{
+    @page{size:1280px 720px;margin:0}
+    html,body{background:#fff}
+    .deck{padding:0;gap:0}
+    .slide{box-shadow:none;width:1280px;height:720px}
+    .hint{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 01 · 封面 -->
+  <section class="slide cover">
+    <div class="pad">
+      <div class="mast">
+        <span>季刊 · QUARTERLY</span>
+        <span class="iss">ISSUE 01 — 2026</span>
+        <span>第 01 期</span>
+      </div>
+      <h1>主标题<br><em>放这里</em></h1>
+      <div class="sub">
+        <p>这里写一句副标题或导语,杂志封面常用一句话点出本期主题与态度。</p>
+        <div class="date">JUNE 2026<br>VOL.01</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 · 目录 -->
+  <section class="slide toc">
+    <div class="pad">
+      <div>
+        <div class="kicker">Contents · 本期目录</div>
+        <h2 class="display" style="margin-top:10px">目录</h2>
+      </div>
+      <div class="grid">
+        <div class="item"><div class="num">01</div><div><div class="tt">卷首语</div><div class="desc">本期主题的态度与开场</div></div></div>
+        <div class="item"><div class="num">02</div><div><div class="tt">封面特写</div><div class="desc">核心内容的图文跨页呈现</div></div></div>
+        <div class="item"><div class="num">03</div><div><div class="tt">数据观察</div><div class="desc">用关键数字讲清楚要点</div></div></div>
+        <div class="item"><div class="num">04</div><div><div class="tt">深度专栏</div><div class="desc">展开论述与案例分析</div></div></div>
+        <div class="item"><div class="num">05</div><div><div class="tt">人物 / 访谈</div><div class="desc">引文与观点摘录</div></div></div>
+        <div class="item"><div class="num">06</div><div><div class="tt">尾页</div><div class="desc">总结、致谢与联系方式</div></div></div>
+      </div>
+    </div>
+    <div class="folio">MAGAZINE · 02</div>
+  </section>
+
+  <!-- 03 · 卷首语 -->
+  <section class="slide feature">
+    <div class="left">
+      <div class="pad">
+        <div class="kicker">Editor's Note · 卷首语</div>
+        <div class="quote"><span class="mark">“</span>把最想说的一句话放大,<br>让它成为这一页的主角。</div>
+      </div>
+      <div class="by">—— 主编 / 署名</div>
+    </div>
+    <div class="right">
+      <div class="pad">
+        <div class="runhead"><span>Foreword</span><span><b>01</b> / 06</span></div>
+        <div class="body">
+          <p>这里是正文段落。杂志风排版讲究"大标题 + 多栏正文 + 首字下沉",首字母(或首字)会被放大处理,形成强烈的版面节奏。把你的开场文字替换到这里即可。</p>
+          <p>继续第二段。保持每段不要太长,行距宽松、两端对齐,会让整页看起来更像印刷物。你可以放三到四段文字,讲清楚本期的缘起与主旨。</p>
+          <p>第三段做收束,抛出一个让读者想翻到下一页的问题或承诺,引导进入正文。</p>
+        </div>
+      </div>
+    </div>
+    <div class="folio folio-r">MAGAZINE · 03</div>
+  </section>
+
+  <!-- 04 · 图文跨页 -->
+  <section class="slide spread">
+    <div class="pad">
+      <div class="head">
+        <div class="kicker">Feature · 封面特写</div>
+        <h2>用三栏图文,讲一个完整的故事</h2>
+      </div>
+      <div class="cols">
+        <div class="card"><div class="ph"></div><div class="cap"><div class="t">小标题一</div><div class="d">配图说明文字,一到两行,补充画面里看不到的信息。</div></div></div>
+        <div class="card"><div class="ph alt"></div><div class="cap"><div class="t">小标题二</div><div class="d">中间一栏用强调色块,形成视觉重心,引导阅读视线。</div></div></div>
+        <div class="card"><div class="ph"></div><div class="cap"><div class="t">小标题三</div><div class="d">把真实图片替换掉占位块,整页质感会立刻提升。</div></div></div>
+      </div>
+    </div>
+    <div class="folio">MAGAZINE · 04</div>
+  </section>
+
+  <!-- 05 · 数据 -->
+  <section class="slide stats">
+    <div class="pad">
+      <div class="runhead"><span>By the Numbers</span><span>数据观察</span></div>
+      <h2 class="display">关键数字</h2>
+      <div class="grid">
+        <div class="cell"><div class="big">128<small>%</small></div><div class="lbl"><b>增长</b>用一句话解释这个数字代表什么。</div></div>
+        <div class="cell"><div class="big">3.6<small>万</small></div><div class="lbl"><b>规模</b>第二个核心指标的说明文字。</div></div>
+        <div class="cell"><div class="big">No.1</div><div class="lbl"><b>地位</b>第三个亮点,用于支撑整体论点。</div></div>
+      </div>
+    </div>
+    <div class="folio folio-r" style="color:#8a8175">MAGAZINE · 05</div>
+  </section>
+
+  <!-- 06 · 封底 -->
+  <section class="slide back">
+    <div class="pad">
+      <div>
+        <div class="kicker">Thank You</div>
+        <div class="big" style="margin-top:18px">谢谢观看<br><em>To be continued.</em></div>
+      </div>
+      <div class="foot">
+        <p>这里放总结句、致谢,或下一步的行动号召。把联系方式 / 出品信息放在右侧。</p>
+        <div class="tag">出品 / Studio<br>contact@example.com<br>ISSUE 01 — 2026</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="hint">P 全屏播放 · ← → 翻页 · Esc 退出 · Ctrl/⌘+P 导出 PDF</div>
+
+<script>
+  const body=document.body, slides=[...document.querySelectorAll('.slide')];
+  let i=0, present=false;
+  function fit(){ if(!present)return;
+    const s=Math.min(innerWidth/1280, innerHeight/720);
+    slides.forEach(el=>el.style.setProperty('--s',s)); }
+  function show(n){ i=(n+slides.length)%slides.length;
+    slides.forEach((el,k)=>el.classList.toggle('active',k===i)); }
+  function enter(){ present=true; body.classList.add('present'); show(i); fit(); }
+  function exit(){ present=false; body.classList.remove('present');
+    slides.forEach(el=>el.classList.remove('active'));
+    slides[i].scrollIntoView({block:'center'}); }
+  addEventListener('keydown',e=>{
+    if(e.key==='p'||e.key==='P'){ present?exit():enter(); }
+    else if(e.key==='Escape'&&present){ exit(); }
+    else if(present&&(e.key==='ArrowRight'||e.key===' ')){ e.preventDefault(); show(i+1); }
+    else if(present&&e.key==='ArrowLeft'){ show(i-1); }
+  });
+  addEventListener('resize',fit);
+</script>
+</body>
+</html>
