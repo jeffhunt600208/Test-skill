@@ -3,248 +3,522 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>杂志风 PPT · MAGAZINE</title>
+<title>判形之争 · eVTOL 适航安全目标分歧研究</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Archivo:wght@400;600;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Archivo:wght@500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#1a1714;        /* 近黑墨色 */
-    --paper:#f4f0e8;      /* 米白纸张 */
-    --accent:#d8442f;     /* 杂志红 */
-    --muted:#8a8175;      /* 灰调辅助色 */
-    --line:#cdc6b8;       /* 分隔线 */
+    --ink:#181410;
+    --paper:#f4efe6;
+    --accent:#c4271d;       /* 杂志红 */
+    --accent2:#1f3a5f;       /* 深航蓝 — 对照色 */
+    --gold:#b88a2e;
+    --muted:#8c8273;
+    --line:#d2cabb;
     --serif:"Noto Serif SC","Playfair Display",Georgia,serif;
     --sans:"Noto Sans SC","Archivo",-apple-system,sans-serif;
     --display:"Playfair Display","Noto Serif SC",serif;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html,body{background:#0e0c0a;color:var(--ink);font-family:var(--sans)}
+  html,body{background:#0d0b09;color:var(--ink);font-family:var(--sans)}
+  sup{font-size:.62em}
+  .deck{display:flex;flex-direction:column;align-items:center;gap:26px;padding:38px 0}
+  .slide{position:relative;width:1280px;height:720px;background:var(--paper);
+    overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);page-break-after:always}
+  .slide::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.035;
+    background:radial-gradient(circle at 20% 30%, #000 .5px, transparent .6px) 0 0/4px 4px}
+  .pad{position:absolute;inset:58px 64px}
 
-  /* ---------- 幻灯片容器：每页 16:9 ---------- */
-  .deck{display:flex;flex-direction:column;align-items:center;gap:28px;padding:40px 0}
-  .slide{
-    position:relative;width:1280px;height:720px;background:var(--paper);
-    overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);
-    page-break-after:always;
-  }
-  /* 纸张纹理：极淡颗粒 */
-  .slide::after{
-    content:"";position:absolute;inset:0;pointer-events:none;opacity:.04;
-    background:radial-gradient(circle at 20% 30%, #000 0.5px, transparent 0.6px) 0 0/4px 4px;
-  }
-  .pad{position:absolute;inset:64px}
-
-  /* ---------- 通用版式元件 ---------- */
   .runhead{display:flex;justify-content:space-between;align-items:center;
-    font-family:var(--sans);font-size:13px;letter-spacing:.28em;text-transform:uppercase;
-    color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:14px}
+    font-size:12.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);
+    border-bottom:1px solid var(--line);padding-bottom:13px}
   .runhead b{color:var(--accent);font-weight:800}
-  .folio{position:absolute;left:64px;bottom:40px;font-size:13px;letter-spacing:.2em;color:var(--muted)}
-  .folio-r{left:auto;right:64px}
-  .kicker{font-size:14px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);font-weight:700}
-  .rule{height:3px;width:60px;background:var(--ink)}
-  .serif{font-family:var(--serif)}
-  .display{font-family:var(--display)}
+  .folio{position:absolute;bottom:34px;font-size:12px;letter-spacing:.2em;color:var(--muted)}
+  .folio.l{left:64px}.folio.r{right:64px}
+  .kicker{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:800}
+  .serif{font-family:var(--serif)}.display{font-family:var(--display)}
+  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 .15em;font-family:var(--serif)}
+  .frac .n{border-bottom:2px solid currentColor;padding:0 .45em;line-height:1.25}
+  .frac .d{padding:0 .45em;line-height:1.25}
+  .var{font-family:var(--serif);font-style:italic}
 
-  /* ====== 01 封面 ====== */
-  .cover{background:var(--ink);color:var(--paper)}
-  .cover::after{opacity:.06}
+  /* 01 封面 */
+  .cover{background:var(--ink);color:var(--paper)}.cover::after{opacity:.06}
   .cover .pad{display:flex;flex-direction:column;justify-content:space-between}
-  .cover .mast{display:flex;justify-content:space-between;align-items:flex-start;
-    font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:#bdb4a4}
+  .cover .mast{display:flex;justify-content:space-between;font-size:12.5px;letter-spacing:.3em;
+    text-transform:uppercase;color:#b8af9d}
   .cover .mast .iss{color:var(--accent);font-weight:800}
-  .cover h1{font-family:var(--display);font-weight:900;font-size:150px;line-height:.92;
-    letter-spacing:-.02em}
-  .cover h1 em{font-style:italic;color:var(--accent)}
-  .cover .sub{display:flex;justify-content:space-between;align-items:flex-end}
-  .cover .sub p{font-family:var(--serif);font-size:22px;max-width:560px;line-height:1.5;color:#e7e0d2}
-  .cover .sub .date{text-align:right;font-size:13px;letter-spacing:.25em;color:#bdb4a4;text-transform:uppercase}
+  .cover .big{font-family:var(--display);font-weight:900;letter-spacing:-.01em}
+  .cover .eq{font-size:140px;line-height:.9}
+  .cover .eq em{font-style:italic;color:var(--accent)}
+  .cover h1{font-family:var(--serif);font-weight:900;font-size:62px;line-height:1.12;margin-top:6px}
+  .cover h1 mark{background:var(--accent);color:var(--paper);padding:0 .12em}
+  .cover .sub{display:flex;justify-content:space-between;align-items:flex-end;gap:40px}
+  .cover .sub p{font-family:var(--serif);font-size:18px;max-width:680px;line-height:1.6;color:#e7e0d0}
+  .cover .sub .meta{text-align:right;font-size:12px;letter-spacing:.22em;color:#b8af9d;
+    text-transform:uppercase;white-space:nowrap}
 
-  /* ====== 02 目录 ====== */
-  .toc .pad{display:grid;grid-template-rows:auto 1fr;gap:42px}
-  .toc h2{font-family:var(--display);font-size:88px;font-weight:900;line-height:1}
-  .toc .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 80px;align-self:center}
-  .toc .item{display:flex;gap:24px;align-items:baseline;padding:22px 0;border-top:1px solid var(--line)}
-  .toc .num{font-family:var(--display);font-size:30px;color:var(--accent);font-weight:700;min-width:54px}
-  .toc .tt{font-family:var(--serif);font-size:26px;font-weight:600}
-  .toc .desc{font-size:14px;color:var(--muted);margin-top:4px}
+  /* 02 大命题 */
+  .thesis{background:var(--accent);color:#fff}.thesis::after{opacity:.05}
+  .thesis .pad{display:flex;flex-direction:column;justify-content:center;gap:30px}
+  .thesis .kicker{color:#ffd2cc}
+  .thesis .q{font-family:var(--display);font-weight:900;font-size:104px;line-height:1;letter-spacing:-.01em}
+  .thesis .q .mk{font-size:130px;opacity:.4;line-height:0;margin-right:.05em}
+  .thesis .lead{font-family:var(--serif);font-size:23px;line-height:1.7;max-width:880px;color:#ffeae7}
+  .thesis .lead b{color:#fff}
 
-  /* ====== 03 卷首语 / 大引文 ====== */
-  .feature{display:grid;grid-template-columns:1.1fr .9fr}
-  .feature .left{background:var(--accent);color:var(--paper);position:relative}
-  .feature .left .pad{inset:64px}
-  .feature .left .kicker{color:#ffd9cf}
-  .feature .quote{font-family:var(--display);font-style:italic;font-weight:700;
-    font-size:54px;line-height:1.15;margin-top:30px}
-  .feature .quote .mark{font-size:120px;line-height:0;display:block;height:60px;opacity:.6}
-  .feature .by{position:absolute;left:64px;bottom:56px;font-size:14px;letter-spacing:.2em;text-transform:uppercase}
-  .feature .right{position:relative}
-  .feature .right .pad{inset:56px 64px}
-  .feature .right .runhead{border-color:rgba(0,0,0,.2)}
-  .feature .body{column-count:1;font-family:var(--serif);font-size:18px;line-height:1.8;margin-top:28px}
-  .feature .body p{margin-bottom:18px;text-align:justify}
-  .feature .body p:first-child::first-letter{
-    font-family:var(--display);font-size:84px;float:left;line-height:.72;
-    padding:8px 14px 0 0;color:var(--accent);font-weight:900}
+  /* 通用目录/分栏 */
+  .toc .pad{display:grid;grid-template-rows:auto 1fr;gap:30px}
+  .toc h2{font-family:var(--display);font-size:78px;font-weight:900;line-height:1}
+  .toc .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 72px;align-self:center}
+  .toc .item{display:flex;gap:22px;align-items:baseline;padding:18px 0;border-top:1px solid var(--line)}
+  .toc .num{font-family:var(--display);font-size:26px;color:var(--accent);font-weight:700;min-width:46px}
+  .toc .tt{font-family:var(--serif);font-size:23px;font-weight:600}
+  .toc .desc{font-size:13px;color:var(--muted);margin-top:3px}
 
-  /* ====== 04 图文跨页 ====== */
-  .spread .pad{display:grid;grid-template-rows:auto 1fr;gap:30px}
-  .spread .head h2{font-family:var(--display);font-size:64px;font-weight:900;line-height:1.02;margin-top:14px}
-  .spread .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;align-items:stretch}
-  .spread .card{display:flex;flex-direction:column}
-  .spread .ph{flex:1;background:
-    linear-gradient(135deg,#2a2620,#4a4338);position:relative;min-height:230px;overflow:hidden}
-  .spread .ph::before{content:"图片占位 · IMAGE";position:absolute;inset:0;display:flex;
-    align-items:center;justify-content:center;color:#b9af9d;font-size:13px;letter-spacing:.25em}
-  .spread .ph.alt{background:linear-gradient(135deg,var(--accent),#7a2317)}
-  .spread .cap{margin-top:14px}
-  .spread .cap .t{font-family:var(--serif);font-size:19px;font-weight:600}
-  .spread .cap .d{font-size:14px;color:var(--muted);line-height:1.6;margin-top:6px}
+  /* 引言 编辑页 */
+  .ed{display:grid;grid-template-columns:1.05fr .95fr}
+  .ed .left{background:var(--ink);color:var(--paper);position:relative}
+  .ed .left .pad{inset:58px 56px}
+  .ed .left .kicker{color:#ffb3ac}
+  .ed .vs{margin-top:34px;display:flex;flex-direction:column;gap:24px}
+  .ed .vs .row{border-left:3px solid var(--accent);padding-left:20px}
+  .ed .vs .tag{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:#b8af9d}
+  .ed .vs .txt{font-family:var(--serif);font-size:21px;line-height:1.4;margin-top:6px}
+  .ed .vs .txt b{color:#ff7a6e}
+  .ed .right .pad{inset:56px 60px}
+  .ed .right h2{font-family:var(--display);font-size:46px;font-weight:900;line-height:1.05;margin-top:18px}
+  .ed .body{font-family:var(--serif);font-size:17px;line-height:1.85;margin-top:22px}
+  .ed .body p{margin-bottom:15px;text-align:justify}
+  .ed .body p:first-child::first-letter{font-family:var(--display);font-size:74px;float:left;
+    line-height:.7;padding:8px 12px 0 0;color:var(--accent);font-weight:900}
 
-  /* ====== 05 数据 ====== */
-  .stats{background:var(--ink);color:var(--paper)}
-  .stats::after{opacity:.06}
-  .stats .runhead{color:#bdb4a4;border-color:rgba(255,255,255,.15)}
-  .stats .pad{display:grid;grid-template-rows:auto auto 1fr;gap:34px}
-  .stats h2{font-family:var(--display);font-size:60px;font-weight:900}
-  .stats .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0;align-self:center}
-  .stats .cell{padding:0 40px;border-left:1px solid rgba(255,255,255,.16)}
-  .stats .cell:first-child{padding-left:0;border-left:none}
-  .stats .big{font-family:var(--display);font-size:96px;font-weight:900;line-height:1;color:var(--accent)}
-  .stats .big small{font-size:34px;color:var(--paper)}
-  .stats .lbl{margin-top:16px;font-size:16px;line-height:1.6;color:#e7e0d2}
-  .stats .lbl b{display:block;font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:#bdb4a4;margin-bottom:6px}
+  /* 标准内容页 */
+  .pg .pad{display:grid;grid-template-rows:auto auto 1fr;gap:18px}
+  .pg .head h2{font-family:var(--display);font-size:50px;font-weight:900;line-height:1.04;margin-top:10px}
+  .pg .head .dek{font-family:var(--serif);font-size:18px;color:#5a5246;margin-top:8px;max-width:980px;line-height:1.5}
 
-  /* ====== 06 封底 ====== */
+  /* 表格 */
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{text-align:left;padding:13px 16px;vertical-align:top;line-height:1.45}
+  thead th{font-family:var(--sans);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--paper);background:var(--ink);font-weight:700}
+  tbody tr{border-bottom:1px solid var(--line)}
+  tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
+  td .h{font-family:var(--serif);font-weight:700;font-size:16px}
+  .num8{color:var(--accent2);font-family:var(--serif);font-weight:700}
+  .num9{color:var(--accent);font-family:var(--serif);font-weight:700}
+  .tnote{font-size:13px;color:var(--muted);font-style:italic;margin-top:4px}
+
+  /* 双栏带要点 */
+  .split{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+  .split .fig{background:var(--ink);color:var(--paper);padding:30px 30px 26px;height:100%;
+    display:flex;flex-direction:column;justify-content:center;position:relative}
+  .flow{font-family:"Archivo",var(--sans);font-size:13.5px;line-height:1.5;white-space:pre;color:#e7e0d0;letter-spacing:.02em}
+  .flow .a{color:#ff7a6e;font-weight:700}.flow .b{color:#7fa9d6;font-weight:700}
+  .points{display:flex;flex-direction:column;gap:18px}
+  .points .p{display:flex;gap:16px}
+  .points .p .i{font-family:var(--display);font-size:30px;color:var(--accent);font-weight:700;line-height:1}
+  .points .p .t{font-family:var(--serif);font-size:17px;line-height:1.5}
+  .points .p .t b{color:var(--ink)}
+
+  /* KGI 公式页 */
+  .math{background:var(--ink);color:var(--paper)}.math::after{opacity:.06}
+  .math .runhead{color:#b8af9d;border-color:rgba(255,255,255,.16)}
+  .math .pad{display:grid;grid-template-rows:auto 1fr;gap:22px}
+  .math h2{font-family:var(--display);font-size:46px;font-weight:900;margin-top:8px}
+  .math .grid{display:grid;grid-template-columns:1fr 1fr;gap:46px;align-items:center}
+  .math .box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.14);padding:26px 30px}
+  .math .lab{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:#ffb3ac;font-weight:700}
+  .math .eq{font-size:42px;margin:16px 0;display:flex;align-items:center;gap:.25em;color:#fff}
+  .math .eq .frac{font-size:30px}
+  .math .note{font-size:15px;line-height:1.7;color:#d8d0c0}
+  .math .chain{display:flex;flex-direction:column;gap:14px;font-family:var(--serif);font-size:19px;line-height:1.4}
+  .math .chain .s{display:flex;gap:14px;align-items:baseline}
+  .math .chain .s .ar{color:var(--accent);font-weight:800;font-size:22px}
+  .math .chain .s b{color:#ff7a6e}
+  .math .punch{font-family:var(--display);font-style:italic;font-weight:700;font-size:30px;
+    color:var(--gold);margin-top:6px;line-height:1.2}
+
+  /* 三栏哲学 */
+  .three .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+  .three .c{border-top:5px solid var(--ink);padding-top:18px;display:flex;flex-direction:column}
+  .three .c.f{border-color:var(--accent2)}.three .c.e{border-color:var(--accent)}.three .c.a{border-color:var(--gold)}
+  .three .c .org{font-family:var(--display);font-size:30px;font-weight:900}
+  .three .c.f .org{color:var(--accent2)}.three .c.e .org{color:var(--accent)}.three .c.a .org{color:var(--gold)}
+  .three .c .sub{font-size:12.5px;letter-spacing:.05em;color:var(--muted);margin:2px 0 16px}
+  .three .c .row{padding:12px 0;border-top:1px solid var(--line)}
+  .three .c .k{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .three .c .v{font-family:var(--serif);font-size:15.5px;line-height:1.5;margin-top:4px}
+  .three .c .v b{color:var(--ink)}
+
+  /* 协调 虚实 */
+  .dual .cols{display:grid;grid-template-columns:1fr 1fr;gap:36px;align-items:stretch}
+  .dual .card{padding:28px 30px;height:100%}
+  .dual .card.real{background:rgba(31,58,95,.07);border-left:5px solid var(--accent2)}
+  .dual .card.fake{background:rgba(196,39,29,.06);border-left:5px solid var(--accent)}
+  .dual .card .lab{font-family:var(--display);font-size:34px;font-weight:900}
+  .dual .card.real .lab{color:var(--accent2)}.dual .card.fake .lab{color:var(--accent)}
+  .dual .card .sub{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:4px 0 18px}
+  .dual .card p{font-family:var(--serif);font-size:16.5px;line-height:1.7}
+  .dual .card p+p{margin-top:12px}
+  .dual .card b{color:var(--ink)}
+  .dual .bottom{margin-top:auto;background:var(--ink);color:var(--paper);padding:20px 28px;
+    font-family:var(--serif);font-size:19px;line-height:1.5}
+  .dual .bottom b{color:#ff8377}
+
+  /* 判形门 4 输出 */
+  .gate .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px 30px}
+  .gate .o{display:flex;gap:18px;padding:16px 0;border-top:1px solid var(--line)}
+  .gate .o .n{font-family:var(--display);font-size:38px;font-weight:900;color:var(--accent);line-height:.9;min-width:54px}
+  .gate .o .t{font-family:var(--serif);font-size:17px;font-weight:700;line-height:1.3}
+  .gate .o .d{font-size:13.5px;color:#5a5246;line-height:1.55;margin-top:5px}
+
+  /* 封底 */
+  .back{background:var(--ink);color:var(--paper)}.back::after{opacity:.06}
   .back .pad{display:flex;flex-direction:column;justify-content:space-between}
-  .back .big{font-family:var(--display);font-size:104px;font-weight:900;line-height:.98;letter-spacing:-.02em}
+  .back .kicker{color:#ffb3ac}
+  .back .big{font-family:var(--display);font-size:74px;font-weight:900;line-height:1.04;margin-top:14px}
   .back .big em{font-style:italic;color:var(--accent)}
-  .back .foot{display:flex;justify-content:space-between;align-items:flex-end;border-top:1px solid var(--line);padding-top:24px}
-  .back .foot p{font-family:var(--serif);font-size:18px;max-width:480px;line-height:1.6}
-  .back .foot .tag{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--muted);text-align:right}
+  .back .kw{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .back .kw span{font-size:13px;letter-spacing:.08em;border:1px solid rgba(255,255,255,.28);
+    padding:7px 15px;color:#e7e0d0}
+  .back .foot{display:flex;justify-content:space-between;align-items:flex-end;
+    border-top:1px solid rgba(255,255,255,.18);padding-top:20px}
+  .back .foot p{font-family:var(--serif);font-size:16px;max-width:560px;line-height:1.6;color:#d8d0c0}
+  .back .foot .tag{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#b8af9d;text-align:right}
 
-  /* ---------- 屏幕播放模式 ---------- */
+  /* 播放 / 打印 */
   body.present{background:#000;overflow:hidden}
   body.present .deck{padding:0;gap:0}
-  body.present .slide{display:none;box-shadow:none;
-    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(var(--s,1))}
+  body.present .slide{display:none;box-shadow:none;position:fixed;top:50%;left:50%;
+    transform:translate(-50%,-50%) scale(var(--s,1))}
   body.present .slide.active{display:block}
-
-  .hint{position:fixed;right:18px;bottom:14px;z-index:50;color:#8a8175;font-size:12px;
-    letter-spacing:.15em;font-family:var(--sans)}
+  .hint{position:fixed;right:16px;bottom:12px;z-index:50;color:#8c8273;font-size:11.5px;letter-spacing:.12em}
   body.present .hint{color:#555}
-
-  /* ---------- 打印 / 导出 PDF ---------- */
-  @media print{
-    @page{size:1280px 720px;margin:0}
-    html,body{background:#fff}
-    .deck{padding:0;gap:0}
-    .slide{box-shadow:none;width:1280px;height:720px}
-    .hint{display:none}
-  }
+  @media print{@page{size:1280px 720px;margin:0}html,body{background:#fff}
+    .deck{padding:0;gap:0}.slide{box-shadow:none}.hint{display:none}}
 </style>
 </head>
 <body>
 <div class="deck" id="deck">
 
-  <!-- 01 · 封面 -->
+  <!-- 01 封面 -->
   <section class="slide cover">
     <div class="pad">
       <div class="mast">
-        <span>季刊 · QUARTERLY</span>
-        <span class="iss">ISSUE 01 — 2026</span>
-        <span>第 01 期</span>
+        <span>适航安全研究 · AIRWORTHINESS</span>
+        <span class="iss">eVTOL 专题 — 2026</span>
+        <span>Form-Judgment</span>
       </div>
-      <h1>主标题<br><em>放这里</em></h1>
+      <div>
+        <div class="big eq">10<sup>−8</sup> <em>vs</em> 10<sup>−9</sup></div>
+        <h1>之争,本质是<mark>判形</mark>之争</h1>
+      </div>
       <div class="sub">
-        <p>这里写一句副标题或导语,杂志封面常用一句话点出本期主题与态度。</p>
-        <div class="date">JUNE 2026<br>VOL.01</div>
+        <p>电动垂直起降航空器(eVTOL)适航中的灾难性失效概率目标分歧,长期被简化为"FAA 用 10<sup>−8</sup>、EASA 用 10<sup>−9</sup>"的平直对立。本文指出:这一叙述在事实层面不成立,在机理层面错置了因果。</p>
+        <div class="meta">基于"判形先于选证"框架的<br>适航安全目标分歧研究<br><br>VOL.01 · FEATURE</div>
       </div>
     </div>
   </section>
 
-  <!-- 02 · 目录 -->
+  <!-- 02 大命题 -->
+  <section class="slide thesis">
+    <div class="pad">
+      <div class="kicker">The Core Thesis · 核心命题</div>
+      <div class="q"><span class="mk">“</span>数字是判形的下游</div>
+      <div class="lead">没有孤立的 10<sup>−8</sup> 或 10<sup>−9</sup>,只有在<b>特定形态判定</b>下才具备法理与工程合理性的量化指针。真正稳定的分歧不在数字本身,而在"<b>这是一种什么形态的飞行器</b>"这一前置判定。</div>
+    </div>
+  </section>
+
+  <!-- 03 目录 -->
   <section class="slide toc">
     <div class="pad">
-      <div>
-        <div class="kicker">Contents · 本期目录</div>
-        <h2 class="display" style="margin-top:10px">目录</h2>
-      </div>
+      <div><div class="kicker">Contents · 本期目录</div>
+        <h2 class="display" style="margin-top:8px">目录</h2></div>
       <div class="grid">
-        <div class="item"><div class="num">01</div><div><div class="tt">卷首语</div><div class="desc">本期主题的态度与开场</div></div></div>
-        <div class="item"><div class="num">02</div><div><div class="tt">封面特写</div><div class="desc">核心内容的图文跨页呈现</div></div></div>
-        <div class="item"><div class="num">03</div><div><div class="tt">数据观察</div><div class="desc">用关键数字讲清楚要点</div></div></div>
-        <div class="item"><div class="num">04</div><div><div class="tt">深度专栏</div><div class="desc">展开论述与案例分析</div></div></div>
-        <div class="item"><div class="num">05</div><div><div class="tt">人物 / 访谈</div><div class="desc">引文与观点摘录</div></div></div>
-        <div class="item"><div class="num">06</div><div><div class="tt">尾页</div><div class="desc">总结、致谢与联系方式</div></div></div>
+        <div class="item"><div class="num">01</div><div><div class="tt">被平直化的对立</div><div class="desc">引言:务实派 vs 严苛派的误读</div></div></div>
+        <div class="item"><div class="num">02</div><div><div class="tt">事实澄清</div><div class="desc">分级安全目标的实证解构</div></div></div>
+        <div class="item"><div class="num">03</div><div><div class="tt">判形先于选证</div><div class="desc">分析框架与因果传导机制</div></div></div>
+        <div class="item"><div class="num">04</div><div><div class="tt">认知病理</div><div class="desc">KGI 与虚假置信度放大机制</div></div></div>
+        <div class="item"><div class="num">05</div><div><div class="tt">三方判形实证</div><div class="desc">FAA · EASA · CAAC 哲学碰撞</div></div></div>
+        <div class="item"><div class="num">06</div><div><div class="tt">协调虚实 · 判形门</div><div class="desc">国际协调透视与工程对策</div></div></div>
       </div>
     </div>
-    <div class="folio">MAGAZINE · 02</div>
+    <div class="folio l">JUDGMENT OF FORM · 03</div>
   </section>
 
-  <!-- 03 · 卷首语 -->
-  <section class="slide feature">
+  <!-- 04 引言 -->
+  <section class="slide ed">
     <div class="left">
       <div class="pad">
-        <div class="kicker">Editor's Note · 卷首语</div>
-        <div class="quote"><span class="mark">“</span>把最想说的一句话放大,<br>让它成为这一页的主角。</div>
-      </div>
-      <div class="by">—— 主编 / 署名</div>
-    </div>
-    <div class="right">
-      <div class="pad">
-        <div class="runhead"><span>Foreword</span><span><b>01</b> / 06</span></div>
-        <div class="body">
-          <p>这里是正文段落。杂志风排版讲究"大标题 + 多栏正文 + 首字下沉",首字母(或首字)会被放大处理,形成强烈的版面节奏。把你的开场文字替换到这里即可。</p>
-          <p>继续第二段。保持每段不要太长,行距宽松、两端对齐,会让整页看起来更像印刷物。你可以放三到四段文字,讲清楚本期的缘起与主旨。</p>
-          <p>第三段做收束,抛出一个让读者想翻到下一页的问题或承诺,引导进入正文。</p>
+        <div class="kicker">Introduction · 引言</div>
+        <div class="vs">
+          <div class="row"><div class="tag">通俗叙述 · EASA</div>
+            <div class="txt">走向极端严苛的 <b>10<sup>−9</sup></b> 阵营,要求与大型干线客机看齐。</div></div>
+          <div class="row"><div class="tag">通俗叙述 · FAA</div>
+            <div class="txt">坚守务实的 <b>10<sup>−8</sup></b> 阵营,为新兴工业留出创新冗余。</div></div>
+          <div class="row" style="border-color:#ff7a6e">
+            <div class="tag" style="color:#ff7a6e">本文判断</div>
+            <div class="txt">这是一种严重的<b>直观误读</b>,错置了适航审定的因果传导链条。</div></div>
         </div>
       </div>
     </div>
-    <div class="folio folio-r">MAGAZINE · 03</div>
-  </section>
-
-  <!-- 04 · 图文跨页 -->
-  <section class="slide spread">
-    <div class="pad">
-      <div class="head">
-        <div class="kicker">Feature · 封面特写</div>
-        <h2>用三栏图文,讲一个完整的故事</h2>
-      </div>
-      <div class="cols">
-        <div class="card"><div class="ph"></div><div class="cap"><div class="t">小标题一</div><div class="d">配图说明文字,一到两行,补充画面里看不到的信息。</div></div></div>
-        <div class="card"><div class="ph alt"></div><div class="cap"><div class="t">小标题二</div><div class="d">中间一栏用强调色块,形成视觉重心,引导阅读视线。</div></div></div>
-        <div class="card"><div class="ph"></div><div class="cap"><div class="t">小标题三</div><div class="d">把真实图片替换掉占位块,整页质感会立刻提升。</div></div></div>
+    <div class="right">
+      <div class="pad">
+        <div class="kicker">被平直化的量化对立</div>
+        <h2>若只盯末端数字,<br>审定就被降维为<br>无源的算术博弈。</h2>
+        <div class="body">
+          <p>灾难性级失效的平均概率目标,是划定技术壁垒与经济可行性的最高权力边界。聚焦末端数字,会掩盖数字上游更具根本性的适航哲学遭遇战。</p>
+          <p>本文建立"判形先于选证"框架,论证量化数字的分歧,是"判形"这一前置判定逻辑的自然衍生,并为多态航空器的安全性评估提出工程落地对策。</p>
+        </div>
       </div>
     </div>
-    <div class="folio">MAGAZINE · 04</div>
+    <div class="folio r">JUDGMENT OF FORM · 04</div>
   </section>
 
-  <!-- 05 · 数据 -->
-  <section class="slide stats">
+  <!-- 05 表1 -->
+  <section class="slide pg">
     <div class="pad">
-      <div class="runhead"><span>By the Numbers</span><span>数据观察</span></div>
-      <h2 class="display">关键数字</h2>
+      <div class="runhead"><span>事实澄清 · By the Numbers</span><span><b>表 1</b> / 两个安全目标的工程含义</span></div>
+      <div class="head"><div class="kicker">单点失效 = 形态分水岭</div>
+        <h2>10<sup>−8</sup> 与 10<sup>−9</sup>,差的不是一个零</h2></div>
+      <div style="align-self:start;width:100%">
+      <table>
+        <thead><tr><th style="width:20%">安全目标级别</th><th style="width:24%">适用航空器类别</th><th style="width:30%">单点失效硬约束</th><th>工业界核心实现代价</th></tr></thead>
+        <tbody>
+          <tr><td><span class="h num8">≤ 10<sup>−8</sup></span><br><span class="tnote">每飞行小时</span></td>
+            <td>正常级通用航空器<br>正常级旋翼机(§27)</td>
+            <td>允许特定场景单点失效,以高频检查或强制寿命限制<b>代偿合规</b></td>
+            <td>经典双余度 / 非相似架构;部件采用工业级或改良级航空零件</td></tr>
+          <tr><td><span class="h num9">≤ 10<sup>−9</sup></span><br><span class="tnote">每飞行小时</span></td>
+            <td>运输类大客机(§25)<br>运输类旋翼机(§29)</td>
+            <td><b>绝对硬约束</b>:任何单点失效绝不允许导致灾难性后果</td>
+            <td>全三 / 四余度非相似控制架构;全流程最高等级(DAL-A)审定</td></tr>
+        </tbody>
+      </table>
+      <div class="tnote" style="margin-top:12px">注:"单点失效约束"是判定航空器形态是否跨入运输类门槛的核心分水岭——它是工程定性,而非数字大小。</div>
+      </div>
+    </div>
+    <div class="folio l">JUDGMENT OF FORM · 05</div>
+  </section>
+
+  <!-- 06 表2 + 收敛结论 -->
+  <section class="slide pg">
+    <div class="pad">
+      <div class="runhead"><span>事实澄清 · EASA SC-VTOL</span><span><b>表 2</b> / 安全目标分级与乘员规模映射</span></div>
+      <div class="head"><div class="kicker">决定权在"空间",不在"大小"</div>
+        <h2>EASA 并未盲目一刀切推行 10<sup>−9</sup></h2></div>
+      <div style="align-self:start;width:100%">
+      <table>
+        <thead><tr><th style="width:20%">运营类别</th><th style="width:22%">载客规模</th><th style="width:32%">运行环境与商业性质</th><th>灾难性失效目标</th></tr></thead>
+        <tbody>
+          <tr><td><span class="h">Basic 基本类</span></td><td>1 ~ 9 人</td>
+            <td>非商业载客运行、非拥挤人群上空</td><td><span class="num8">≤ 10<sup>−7</sup></span> / 飞行小时</td></tr>
+          <tr><td><span class="h">Enhanced 增强类</span></td><td>不限(通常 1~9 人)</td>
+            <td><b>城市拥挤人群上空、商业载客运行(CAT)</b></td><td><span class="num9">≤ 10<sup>−9</sup></span> / 飞行小时</td></tr>
+        </tbody>
+      </table>
+      <div class="split" style="margin-top:22px;grid-template-columns:1fr 1fr;gap:30px;align-items:stretch">
+        <div style="background:rgba(31,58,95,.07);border-left:4px solid var(--accent2);padding:16px 20px">
+          <div class="kicker" style="color:var(--accent2)">EASA · 一票否决</div>
+          <div style="font-family:var(--serif);font-size:16px;line-height:1.6;margin-top:8px">锁死 10<sup>−9</sup> 的判据,不取决于载客人数,而取决于"<b>在拥挤人群上空商业运营</b>"这一空间特征。</div>
+        </div>
+        <div style="background:rgba(196,39,29,.06);border-left:4px solid var(--accent);padding:16px 20px">
+          <div class="kicker">FAA · 高暴露端收敛</div>
+          <div style="font-family:var(--serif);font-size:16px;line-height:1.6;margin-top:8px">Powered-Lift 安全连续体同样按"座位数 + 运行类别"分级,最高暴露端<b>同样拨到 ≤ 10<sup>−9</sup></b>。</div>
+        </div>
+      </div>
+      <div class="tnote" style="margin-top:14px;font-size:15px;color:var(--ink)">⟹ "FAA 用 10<sup>−8</sup>、EASA 用 10<sup>−9</sup>"的事实陈述<b style="color:var(--accent)">完全不成立</b>——双方在高暴露端高度收敛。</div>
+      </div>
+    </div>
+    <div class="folio r">JUDGMENT OF FORM · 06</div>
+  </section>
+
+  <!-- 07 框架 + 图1 -->
+  <section class="slide pg">
+    <div class="pad">
+      <div class="runhead"><span>分析框架 · Framework</span><span><b>图 1</b> / 判形错误的因果传导机制</span></div>
+      <div class="head"><div class="kicker">判形先于选证 · Form-Judgment Precedes Certification-Baseline</div>
+        <h2>同一物理对象,两条证据流向</h2></div>
+      <div class="split" style="align-self:center">
+        <div class="fig">
+          <div class="flow">        [ eVTOL 多态飞行器 ]
+                 │
+        ┌────────┴────────┐
+     <span class="b">(判形 A)</span>          <span class="a">(判形 B)</span>
+   <span class="b">性能化新成员</span>     <span class="a">事实运输类客机形</span>
+        │                 │
+   10<sup>−8</sup> 阶梯体系      10<sup>−9</sup> 绝对硬约束
+        │                 │
+ <span class="b">激活旋翼机运行史</span>  <span class="a">阻断数据跨形态外推</span>
+        │                 │
+   降维进低约束       系统性抬高壁垒</div>
+        </div>
+        <div class="points">
+          <div class="p"><div class="i">1</div><div class="t"><b>数字是判形的下游。</b>没有孤立的量化指针,只有特定形态下才合法的数字。</div></div>
+          <div class="p"><div class="i">2</div><div class="t"><b>判形决定证据的规制效力。</b>飞行器一旦被判为某形态,历史数据、统计外推、仿真置信度等证据即自动获得或被剥夺合法性。</div></div>
+          <div class="p"><div class="i">3</div><div class="t"><b>判形分歧导致市场隐性隔离。</b>表面是审定基础协调,深层是借判形差异实施的非关税技术壁垒。</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="folio l">JUDGMENT OF FORM · 07</div>
+  </section>
+
+  <!-- 08 KGI 公式 -->
+  <section class="slide math">
+    <div class="pad">
+      <div class="runhead"><span>认知病理 · Cognitive Pathology</span><span>4.2 · 误差传导与虚假置信度放大</span></div>
+      <div style="display:grid;grid-template-rows:auto 1fr;gap:18px">
+      <h2 class="display">越无知,越自信:判形错误如何污染认知缺口</h2>
       <div class="grid">
-        <div class="cell"><div class="big">128<small>%</small></div><div class="lbl"><b>增长</b>用一句话解释这个数字代表什么。</div></div>
-        <div class="cell"><div class="big">3.6<small>万</small></div><div class="lbl"><b>规模</b>第二个核心指标的说明文字。</div></div>
-        <div class="cell"><div class="big">No.1</div><div class="lbl"><b>地位</b>第三个亮点,用于支撑整体论点。</div></div>
+        <div style="display:flex;flex-direction:column;gap:22px">
+          <div class="box">
+            <div class="lab">知识获取缺口指数 KGI</div>
+            <div class="eq"><span class="var">KGI</span> =
+              <span class="frac"><span class="n"><span class="var">U</span></span><span class="d"><span class="var">K</span> + <span class="var">U</span></span></span></div>
+            <div class="note"><span class="var">K</span> 已知安全认知集 · <span class="var">U</span> 未知风险拓扑集。KGI∈[0,1]:→1 全盲区,→0 全知。</div>
+          </div>
+          <div class="box">
+            <div class="lab">虚假置信度传导系数 C<sub>F</sub></div>
+            <div class="eq"><span class="var">C<sub>F</sub></span> = <span class="var">Conf</span><sub>org</sub> · <span class="var">ω<sub>EML</sub></span> · (1 − <span class="var">KGI</span>)</div>
+            <div class="note"><span class="var">ω<sub>EML</sub></span> ≥ 1 经验错配链接权重——因形态误判而错误激活的历史数据干扰系数。</div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <div class="chain">
+            <div class="s"><span class="ar">①</span><div>判形错误:把 <b>未知 U</b> 错划入 <b>已知 K</b></div></div>
+            <div class="s"><span class="ar">②</span><div><span class="var">U</span> 系统性变小 ⟶ <span class="var">KGI</span><sub>mis</sub> 被人为压低</div></div>
+            <div class="s"><span class="ar">③</span><div>驱动项 (1 − <span class="var">KGI</span>) <b>异常放大</b></div></div>
+            <div class="s"><span class="ar">④</span><div>在 <span class="var">ω<sub>EML</sub></span> 推波助澜下,<b>C<sub>F</sub> 沿分析链系统性抬高</b></div></div>
+          </div>
+          <div class="punch">"越无知,越自信;<br>越自信,越容易把高风险<br>误判为可接受残余风险。"</div>
+          <div class="note" style="border-top:1px solid rgba(255,255,255,.15);padding-top:14px">结果:把真实的高残余风险,精美伪装成"满足 ≤ 10<sup>−8/−9</sup> 要求"的数字合规报告(Leveson, 2011)。</div>
+        </div>
+      </div>
       </div>
     </div>
-    <div class="folio folio-r" style="color:#8a8175">MAGAZINE · 05</div>
+    <div class="folio r" style="color:#8c8273">JUDGMENT OF FORM · 08</div>
   </section>
 
-  <!-- 06 · 封底 -->
+  <!-- 09 三方判形 -->
+  <section class="slide pg three">
+    <div class="pad">
+      <div class="runhead"><span>三方实证 · Three Authorities</span><span>两场哲学碰撞 + 一种辩证权衡</span></div>
+      <div class="head"><div class="kicker">同一飞行器,三种判形</div>
+        <h2>FAA · EASA · CAAC</h2></div>
+      <div class="cols" style="align-self:start">
+        <div class="c f">
+          <div class="org">FAA</div><div class="sub">美国联邦航空局 · §21.17(c)</div>
+          <div class="row"><div class="k">判形</div><div class="v"><b>性能化新成员</b><br>连续体外推哲学</div></div>
+          <div class="row"><div class="k">证据规制</div><div class="v">广泛援引 §23/§27 成熟条款与历史运行数据作代偿</div></div>
+          <div class="row"><div class="k">数字路径</div><div class="v">随吨位 / 座位数从 10<sup>−7</sup>、10<sup>−8</sup> 平滑抬升至 10<sup>−9</sup></div></div>
+        </div>
+        <div class="c e">
+          <div class="org">EASA</div><div class="sub">欧洲航空安全局 · SC-VTOL</div>
+          <div class="row"><div class="k">判形</div><div class="v"><b>事实运输类客机</b><br>空间防御与绝对审慎</div></div>
+          <div class="row"><div class="k">证据规制</div><div class="v">彻底阻断轻型 / 旋翼机数据跨形态外推,强制 DAL-A</div></div>
+          <div class="row"><div class="k">数字路径</div><div class="v">城市商业(Enhanced)直接锁死 10<sup>−9</sup>,单点失效一票否决</div></div>
+        </div>
+        <div class="c a">
+          <div class="org">CAAC</div><div class="sub">中国民用航空局 · 一案一策</div>
+          <div class="row"><div class="k">判形</div><div class="v"><b>多态动态耦合新物种</b><br>辩证解构与多态演进</div></div>
+          <div class="row"><div class="k">证据规制</div><div class="v">穿透物理底层,运行限制与技术证据动态共生</div></div>
+          <div class="row"><div class="k">数字路径</div><div class="v">按构型与无人驾驶形态定制差异化指标</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="folio l">JUDGMENT OF FORM · 09</div>
+  </section>
+
+  <!-- 10 图2 市场切割 -->
+  <section class="slide pg">
+    <div class="pad">
+      <div class="runhead"><span>判形分叉 · Divergence Map</span><span><b>图 2</b> / 判形分叉与下游目标映射</span></div>
+      <div class="head"><div class="kicker">尚未商业载客,市场已被预先切割</div>
+        <h2>三条路径,三块地理市场</h2></div>
+      <div class="split" style="align-self:center;grid-template-columns:1.25fr .75fr">
+        <div class="fig">
+          <div class="flow">                  [ eVTOL 适航审定起点 ]
+                            │
+       ┌────────────────────┼────────────────────┐
+       ▼                    ▼                    ▼
+  <span class="b">[ FAA ]</span>            <span class="a">[ EASA ]</span>           [ CAAC ]
+ 性能化连续体        城市第三方风险         一案一策辩证
+       │                    │                    │
+ 激活旋翼机史        阻断经验外推        拒绝预先归类
+       │                    │                    │
+ 阶梯迈向 10<sup>−9</sup>      一刀切 10<sup>−9</sup>       穿透系统拓扑
+       │                    │                    │
+ (美国市场)          (欧洲市场)         (中国运行边界)</div>
+        </div>
+        <div class="points">
+          <div class="p"><div class="i">↘</div><div class="t">三条路径在进入商业载客前,已完成对<b>全球地理市场的预先切割</b>。</div></div>
+          <div class="p"><div class="i">↘</div><div class="t">适航标准分歧本质演变为一道<b>非关税规制壁垒</b>。</div></div>
+          <div class="p"><div class="i">↘</div><div class="t">未来低空市场将出现"<b>同机不同证、同证不同价</b>"的结构性割裂。</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="folio r">JUDGMENT OF FORM · 10</div>
+  </section>
+
+  <!-- 11 协调虚实 -->
+  <section class="slide pg dual">
+    <div class="pad">
+      <div class="runhead"><span>国际协调 · 6月10日</span><span>美欧适航协调成果的逻辑透视</span></div>
+      <div class="head"><div class="kicker">术趋同 · 道对立</div>
+        <h2>从"语词模糊的交错"走向"概念清晰的对立"</h2></div>
+      <div style="display:flex;flex-direction:column;flex:1;gap:20px">
+        <div class="cols" style="flex:1">
+          <div class="card real">
+            <div class="lab">实 / 术</div><div class="sub">语言与物理锚点的趋同</div>
+            <p>双方统一以<b>最大审定起飞质量(MTOM)</b>作为基准分级线,术语表达成字面趋同。</p>
+            <p>从"鸡同鸭讲"的混乱,上升为清晰的<b>架构对标</b>——能坐在同一张技术谈判桌前。</p>
+          </div>
+          <div class="card fake">
+            <div class="lab">虚 / 道</div><div class="sub">判形底座的完全不兼容</div>
+            <p>FAA 坚守 Powered-Lift 连续体,保留<b>逐步过渡至 10<sup>−9</sup></b> 的权力。</p>
+            <p>EASA 一字未改保留 SC-VTOL:Enhanced 类城市运行<b>无条件 10<sup>−9</sup></b> 且单点失效绝对否决。</p>
+          </div>
+        </div>
+        <div class="bottom">本质:协调<b>并非消除分歧,而是将判形差异合法化、显式化</b>——为本国制造企业保留本土判形的法律豁免权,直接导致全球低空市场"同机不同证"的结构性割裂。</div>
+      </div>
+    </div>
+    <div class="folio l">JUDGMENT OF FORM · 11</div>
+  </section>
+
+  <!-- 12 判形门 -->
+  <section class="slide pg gate">
+    <div class="pad">
+      <div class="runhead"><span>工程对策 · The Gate</span><span>ARP4754B / ARP4761 的前置过滤器</span></div>
+      <div class="head"><div class="kicker">把主观哲学成见,变成可审计的硬约束</div>
+        <h2>设立"判形门"的 4 项最小输出物</h2>
+        <div class="dek">在 FHA / PASA 之前强行嵌入显式化、受控化、可追溯的"判形门";唯有给出合法签署的判形文本,失效定级与安全性分配才具备合法逻辑起点。</div></div>
+      <div class="grid" style="align-self:center">
+        <div class="o"><div class="n">01</div><div><div class="t">物理与构型形态拓扑图</div><div class="d">穿透商品名称,解构气动矢量在各飞行相位的动量分配,确定失效瞬间是否存在控制涌现风险。</div></div></div>
+        <div class="o"><div class="n">02</div><div><div class="t">能量域与危险源耦合边界</div><div class="d">显式划定高压电推进、电池热失控与机械传动间的跨物理场耦合失效链,严禁"物理隔离"假设。</div></div></div>
+        <div class="o"><div class="n">03</div><div><div class="t">社会暴露与第三方风险包络</div><div class="d">定量计算坠毁对地面人口密集区的第三方致命概率;越红线即一票否决式切入最高严苛级别。</div></div></div>
+        <div class="o"><div class="n">04</div><div><div class="t">历史证据链外推有效性矩阵</div><div class="d">逐项审查援引数据并赋予认知缺口修正权重 ω<sub>EML</sub>,从源头卡死旧经验污染新构型。</div></div></div>
+      </div>
+    </div>
+    <div class="folio r">JUDGMENT OF FORM · 12</div>
+  </section>
+
+  <!-- 13 封底 -->
   <section class="slide back">
     <div class="pad">
       <div>
-        <div class="kicker">Thank You</div>
-        <div class="big" style="margin-top:18px">谢谢观看<br><em>To be continued.</em></div>
+        <div class="kicker">Conclusion · 结论</div>
+        <div class="big">数字完美的合规报告,<br>不等于<em>坚如磐石</em>的低空飞行。</div>
+        <div class="kw">
+          <span>eVTOL</span><span>适航审定</span><span>安全目标</span><span>判形先于选证</span>
+          <span>认知缺口 KGI</span><span>虚假置信度 C<sub>F</sub></span><span>判形门</span>
+        </div>
       </div>
       <div class="foot">
-        <p>这里放总结句、致谢,或下一步的行动号召。把联系方式 / 出品信息放在右侧。</p>
-        <div class="tag">出品 / Studio<br>contact@example.com<br>ISSUE 01 — 2026</div>
+        <p>10<sup>−8</sup> 与 10<sup>−9</sup> 之争,从来不是算术之争。把"判形"这一前置判定显式化、受控化、可追溯化,才能让 eVTOL 的安全性在物理世界中真正落地。</p>
+        <div class="tag">基于"判形先于选证"框架<br>适航安全目标分歧研究<br>ISSUE 01 — 2026</div>
       </div>
     </div>
   </section>
@@ -252,7 +526,6 @@
 </div>
 
 <div class="hint">P 全屏播放 · ← → 翻页 · Esc 退出 · Ctrl/⌘+P 导出 PDF</div>
-
 <script>
   const body=document.body, slides=[...document.querySelectorAll('.slide')];
   let i=0, present=false;
@@ -263,8 +536,7 @@
     slides.forEach((el,k)=>el.classList.toggle('active',k===i)); }
   function enter(){ present=true; body.classList.add('present'); show(i); fit(); }
   function exit(){ present=false; body.classList.remove('present');
-    slides.forEach(el=>el.classList.remove('active'));
-    slides[i].scrollIntoView({block:'center'}); }
+    slides.forEach(el=>el.classList.remove('active')); slides[i].scrollIntoView({block:'center'}); }
   addEventListener('keydown',e=>{
     if(e.key==='p'||e.key==='P'){ present?exit():enter(); }
     else if(e.key==='Escape'&&present){ exit(); }
