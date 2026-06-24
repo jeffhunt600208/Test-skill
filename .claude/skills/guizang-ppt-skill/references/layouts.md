@@ -1,6 +1,6 @@
 # 版面目录(Layout Catalog)
 
-`assets/template.html` 内含以下 9 类版面,每张幻灯片是一个 `1280×720`(16:9)的 `.slide`。
+`assets/template.html` 内含以下 12 类版面,每张幻灯片是一个 `1280×720`(16:9)的 `.slide`。
 内容通过 `.pad`(`position:absolute;inset:58px 64px`)定位,所以**固定高度不会被内容撑破**——
 但也意味着**内容溢出会被裁切**,务必控制每页文字量。
 
@@ -12,23 +12,26 @@
 | 04 | `.slide.ed` | 卷首语 | 左强调色块大引文 `.quote` + 右多栏正文 `.body`(首字下沉) |
 | 05 | `.slide.pg`(表格) | 数据表 | `.runhead`+`.head` 页头 + `<table>`,关键值用 `.hl`/`.hl2`,`.tnote` 脚注 |
 | 06 | `.slide.pg`(`.split`) | 图文双栏 | 左 `.fig`(深底,可放 `.flow` ASCII 流程图)+ 右 `.points` 编号要点 |
-| 07 | `.slide.dark` | 深底数据/公式 | 深底 + `.stats` 三栏大数字(`.big`/`.lbl`),适合放关键指标或公式 |
+| 07 | `.slide.dark` | 深底数据 | 深底 + `.stats` 三栏大数字(`.big`/`.lbl`) |
 | 08 | `.slide.pg.three` | 三栏并列对比 | `.cols` 三列,每列顶部色条 `.x/.y/.z`(主色/对照色/金) |
-| 09 | `.slide.back` | 封底 | 收束大标题 + `.kw` 关键词标签 + `.foot`(总结 + 出品信息) |
+| 10 | `.slide.math` | 公式 / 机制(深底) | 左 `.box` 公式框(`.frac` 分数)+ 右 `.chain` 推导链 + `.punch` 金句。**专题/论文利器** |
+| 11 | `.slide.pg.dual` | 双卡对比 | `.cols` 两张 `.card.a`/`.card.b`(主色/对照色)+ `.bottom` 底部综合条 |
+| 12 | `.slide.pg.gate` | 编号清单 | `.grid` 2×N 个 `.o`(大编号 `.n` + 标题 `.t` + 说明 `.d`),适合"N 项对策/输出物" |
+| 13 | `.slide.back` | 封底 | 收束大标题 + `.kw` 关键词标签 + `.foot`(总结 + 出品信息) |
+
+> 07–08 是常规内容页,10–12 是从专题/论文场景沉淀的"高级版面":
+> **math** 讲机制(公式 + 因果链 + 金句),**dual** 做两面张力对比,**gate** 收口成编号清单/对策。
 
 ## 复用与扩展
 
 - **页头**:`.pg .head`(`.kicker` 小标 + `h2` 大标 + 可选 `.dek` 引言)+ `.runhead`(刊眉:左栏目右页码)+ `.folio`(角标页码),可拼到任意浅色页。
-- **公式**:用 CSS 分数即可,无需 MathJax:
+- **公式**:`.frac`(分数)与 `.var`(变量斜体)已内置,无需 MathJax。直接写:
   ```html
+  <span class="var">X</span> =
   <span class="frac"><span class="n">U</span><span class="d">K + U</span></span>
   ```
-  ```css
-  .frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle}
-  .frac .n{border-bottom:2px solid currentColor;padding:0 .45em}
-  .frac .d{padding:0 .45em}
-  ```
-  上标用 `<sup>`(如 `10<sup>−9</sup>`)。注意大号减号 `−` 在 WeasyPrint 下偏淡。
+  上标用 `<sup>`(如 `10<sup>−9</sup>`)。完整用法见模板第 10 类 `.math` 版面。
+  注意大号减号 `−`(U+2212)在 WeasyPrint 下偏淡;公式很关键时改图片/SVG 或让用户用浏览器导出。
 - **流程图**:`.fig` 里用 `<div class="flow">` + `white-space:pre` 手绘 ASCII 箭头图,
   用 `<span class="a">`/`<span class="b">` 给两条路径上色。轻量、可控、导出无依赖。
 - **新版面**:任何新页都套 `.slide` 外壳 + `.pad` 内边距,保持 `1280×720`;深色页加 `.dark` 同款配色处理。
