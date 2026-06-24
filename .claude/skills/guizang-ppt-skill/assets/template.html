@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>杂志风 PPT 模板 · GUIZANG</title>
+<!-- 字体:浏览器播放时用 Google Fonts;导出 PDF 时 export_pdf.py 会自动剥离此 link 并改用本地字体 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;500;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Archivo:wght@500;700;900&display=swap" rel="stylesheet">
+<style>
+  /* ============================================================
+     配色 TOKEN —— 改这 6 个变量即可整体换色(见 references/color-system.md)
+     默认:经典编辑红(墨黑 + 杂志红 + 米白)
+     ============================================================ */
+  :root{
+    --ink:#14110d;          /* 主深色:深色页背景 / 正文 */
+    --paper:#f1ebdf;        /* 纸张底:浅色页背景 */
+    --accent:#bf2118;       /* 主强调色(杂志红) */
+    --accent-lt:#ff7a6e;    /* 浅强调色:深底上的高亮(必须在深色上清晰) */
+    --accent2:#1d3a5c;      /* 对照色:仅用于 A/B 双色对比版面 */
+    --gold:#a9802b;         /* 点缀金 */
+    --muted:#8a8071;
+    --line:#d6cdbc;
+    --serif:"Noto Serif SC","Playfair Display",Georgia,serif;
+    --sans:"Noto Sans SC","Archivo",-apple-system,sans-serif;
+    --display:"Playfair Display","Noto Serif SC",serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:#0d0b09;color:var(--ink);font-family:var(--sans)}
+  sup{font-size:.62em}
+  .deck{display:flex;flex-direction:column;align-items:center;gap:26px;padding:38px 0}
+  .slide{position:relative;width:1280px;height:720px;background:var(--paper);
+    overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);page-break-after:always}
+  /* 纸张颗粒纹理:好看但 WeasyPrint 渲染极慢 → 导出脚本会自动关闭 */
+  .slide::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.035;
+    background:radial-gradient(circle at 20% 30%, #000 .5px, transparent .6px) 0 0/4px 4px}
+  .pad{position:absolute;inset:58px 64px}
+
+  /* 通用元件 */
+  .runhead{display:flex;justify-content:space-between;align-items:center;
+    font-size:12.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);
+    border-bottom:1px solid var(--line);padding-bottom:13px}
+  .runhead b{color:var(--accent);font-weight:800}
+  .folio{position:absolute;bottom:34px;font-size:12px;letter-spacing:.2em;color:var(--muted)}
+  .folio.l{left:64px}.folio.r{right:64px}
+  .kicker{font-size:13px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);font-weight:800}
+  .serif{font-family:var(--serif)}.display{font-family:var(--display)}
+
+  /* 01 封面 COVER */
+  .cover{background:var(--ink);color:var(--paper)}
+  .cover .pad{inset:54px 64px;display:flex;flex-direction:column;justify-content:space-between}
+  .cover .mast{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+    letter-spacing:.32em;text-transform:uppercase;color:#b2a994;
+    border-bottom:1px solid rgba(255,255,255,.18);padding-bottom:16px}
+  .cover .mast .iss{color:var(--accent-lt);font-weight:800}
+  .cover h1{font-family:var(--display);font-weight:900;font-size:120px;line-height:.92;letter-spacing:-.02em}
+  .cover h1 mark{background:var(--accent);color:#fff;padding:0 .1em}
+  .cover h1 em{font-style:italic;color:var(--accent-lt)}
+  .cover .midrule{display:flex;align-items:center;gap:18px;margin:26px 0 4px;color:#b2a994;
+    font-size:12px;letter-spacing:.3em;text-transform:uppercase}
+  .cover .midrule::before,.cover .midrule::after{content:"";height:1px;background:rgba(255,255,255,.22);flex:1}
+  .cover .sub{display:flex;justify-content:space-between;align-items:flex-end;gap:44px}
+  .cover .sub p{font-family:var(--serif);font-size:18px;max-width:680px;line-height:1.65;color:#e3dccb}
+  .cover .sub .meta{text-align:right;font-size:11.5px;letter-spacing:.24em;color:#b2a994;
+    text-transform:uppercase;white-space:nowrap;line-height:1.9}
+
+  /* 02 大命题 STATEMENT(满版强调色) */
+  .thesis{background:var(--accent);color:#fff}
+  .thesis .pad{display:flex;flex-direction:column;justify-content:center;gap:30px}
+  .thesis .kicker{color:rgba(255,255,255,.75)}
+  .thesis .q{font-family:var(--display);font-weight:900;font-size:104px;line-height:1;letter-spacing:-.01em}
+  .thesis .q .mk{font-size:130px;opacity:.4;line-height:0;margin-right:.05em}
+  .thesis .lead{font-family:var(--serif);font-size:23px;line-height:1.7;max-width:880px;color:rgba(255,255,255,.92)}
+  .thesis .lead b{color:#fff}
+
+  /* 03 目录 TOC */
+  .toc .pad{display:grid;grid-template-rows:auto 1fr;gap:30px}
+  .toc h2{font-family:var(--display);font-size:78px;font-weight:900;line-height:1}
+  .toc .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 72px;align-self:center}
+  .toc .item{display:flex;gap:22px;align-items:baseline;padding:18px 0;border-top:1px solid var(--line)}
+  .toc .num{font-family:var(--display);font-size:26px;color:var(--accent);font-weight:700;min-width:46px}
+  .toc .tt{font-family:var(--serif);font-size:23px;font-weight:600}
+  .toc .desc{font-size:13px;color:var(--muted);margin-top:3px}
+
+  /* 04 卷首语 EDITORIAL(强调色块 + 首字下沉) */
+  .ed{display:grid;grid-template-columns:1.05fr .95fr}
+  .ed .left{background:var(--accent);color:#fff;position:relative}
+  .ed .left .pad{inset:58px 56px}
+  .ed .left .kicker{color:rgba(255,255,255,.8)}
+  .ed .quote{font-family:var(--display);font-style:italic;font-weight:700;font-size:50px;line-height:1.16;margin-top:30px}
+  .ed .quote .mk{font-size:110px;line-height:0;display:block;height:54px;opacity:.55}
+  .ed .by{position:absolute;left:56px;bottom:54px;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+  .ed .right .pad{inset:56px 60px}
+  .ed .body{font-family:var(--serif);font-size:17px;line-height:1.85;margin-top:22px}
+  .ed .body p{margin-bottom:15px;text-align:justify}
+  .ed .body p:first-child::first-letter{font-family:var(--display);font-size:74px;float:left;
+    line-height:.7;padding:8px 12px 0 0;color:var(--accent);font-weight:900}
+
+  /* 标准内容页头(被多种版面复用) */
+  .pg .pad{display:grid;grid-template-rows:auto auto 1fr;gap:18px}
+  .pg .head h2{font-family:var(--display);font-size:50px;font-weight:900;line-height:1.04;margin-top:10px}
+  .pg .head .dek{font-family:var(--serif);font-size:18px;color:#5a5246;margin-top:8px;max-width:980px;line-height:1.5}
+
+  /* 05 表格 TABLE */
+  table{width:100%;border-collapse:collapse;font-size:15px}
+  th,td{text-align:left;padding:13px 16px;vertical-align:top;line-height:1.45}
+  thead th{font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--paper);background:var(--ink);font-weight:700}
+  tbody tr{border-bottom:1px solid var(--line)}
+  tbody tr:nth-child(even){background:rgba(0,0,0,.025)}
+  td .h{font-family:var(--serif);font-weight:700;font-size:16px}
+  .hl{color:var(--accent);font-family:var(--serif);font-weight:700}
+  .hl2{color:var(--accent2);font-family:var(--serif);font-weight:700}
+  .tnote{font-size:13px;color:var(--muted);font-style:italic;margin-top:4px}
+
+  /* 06 图文双栏 SPLIT(图/示意 + 要点) */
+  .split{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center}
+  .split .fig{background:var(--ink);color:var(--paper);padding:30px;height:100%;
+    display:flex;flex-direction:column;justify-content:center}
+  .flow{font-family:"Archivo",var(--sans);font-size:13.5px;line-height:1.5;white-space:pre;color:#e3dccb}
+  .flow .a{color:var(--accent-lt);font-weight:700}.flow .b{color:#8fb3da;font-weight:700}
+  .points{display:flex;flex-direction:column;gap:18px}
+  .points .p{display:flex;gap:16px}
+  .points .p .i{font-family:var(--display);font-size:30px;color:var(--accent);font-weight:700;line-height:1}
+  .points .p .t{font-family:var(--serif);font-size:17px;line-height:1.5}
+  .points .p .t b{color:var(--ink)}
+
+  /* 07 数据 / 公式 DARK(深底大数字) */
+  .dark{background:var(--ink);color:var(--paper)}
+  .dark .runhead{color:#b2a994;border-color:rgba(255,255,255,.16)}
+  .dark .pad{display:grid;grid-template-rows:auto 1fr;gap:22px}
+  .dark h2{font-family:var(--display);font-size:46px;font-weight:900;margin-top:8px}
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);align-self:center}
+  .stats .cell{padding:0 40px;border-left:1px solid rgba(255,255,255,.16)}
+  .stats .cell:first-child{padding-left:0;border-left:none}
+  .stats .big{font-family:var(--display);font-size:92px;font-weight:900;line-height:1;color:var(--accent-lt)}
+  .stats .big small{font-size:32px;color:var(--paper)}
+  .stats .lbl{margin-top:14px;font-size:15px;line-height:1.6;color:#e3dccb}
+  .stats .lbl b{display:block;font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:#b2a994;margin-bottom:5px}
+
+  /* 08 三栏 THREE(并列对比) */
+  .three .cols{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;align-items:stretch}
+  .three .c{border-top:5px solid var(--ink);padding-top:18px;display:flex;flex-direction:column}
+  .three .c.x{border-color:var(--accent)}.three .c.y{border-color:var(--accent2)}.three .c.z{border-color:var(--gold)}
+  .three .c .org{font-family:var(--display);font-size:30px;font-weight:900}
+  .three .c.x .org{color:var(--accent)}.three .c.y .org{color:var(--accent2)}.three .c.z .org{color:var(--gold)}
+  .three .c .sub{font-size:12.5px;color:var(--muted);margin:2px 0 16px}
+  .three .c .row{padding:12px 0;border-top:1px solid var(--line)}
+  .three .c .k{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .three .c .v{font-family:var(--serif);font-size:15.5px;line-height:1.5;margin-top:4px}
+
+  /* 09 封底 BACK */
+  .back{background:var(--ink);color:var(--paper)}
+  .back .pad{display:flex;flex-direction:column;justify-content:space-between}
+  .back .kicker{color:var(--accent-lt)}
+  .back .big{font-family:var(--display);font-size:74px;font-weight:900;line-height:1.04;margin-top:14px}
+  .back .big em{font-style:italic;color:var(--accent-lt)}
+  .back .kw{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+  .back .kw span{font-size:13px;letter-spacing:.08em;border:1px solid rgba(255,255,255,.28);padding:7px 15px;color:#e3dccb}
+  .back .foot{display:flex;justify-content:space-between;align-items:flex-end;
+    border-top:1px solid rgba(255,255,255,.18);padding-top:20px}
+  .back .foot p{font-family:var(--serif);font-size:16px;max-width:560px;line-height:1.6;color:#d8d0c0}
+  .back .foot .tag{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#b2a994;text-align:right}
+
+  /* 播放 / 打印 */
+  body.present{background:#000;overflow:hidden}
+  body.present .deck{padding:0;gap:0}
+  body.present .slide{display:none;box-shadow:none;position:fixed;top:50%;left:50%;
+    transform:translate(-50%,-50%) scale(var(--s,1))}
+  body.present .slide.active{display:block}
+  .hint{position:fixed;right:16px;bottom:12px;z-index:50;color:#8a8071;font-size:11.5px;letter-spacing:.12em}
+  body.present .hint{color:#555}
+  @media print{@page{size:1280px 720px;margin:0}html,body{background:#fff}
+    .deck{padding:0;gap:0}.slide{box-shadow:none}.hint{display:none}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <!-- 01 封面 -->
+  <section class="slide cover">
+    <div class="pad">
+      <div class="mast"><span>栏目 · Section</span><span class="iss">ISSUE 01 — 2026</span><span>Tagline</span></div>
+      <h1>主标题<br><em>放这里</em></h1>
+      <div class="midrule">A One-Line English Subtitle Or Framework</div>
+      <div class="sub">
+        <p>这里写一句副标题 / 导语,杂志封面常用一句话点出本期主题与态度。把真实文字替换进来即可。</p>
+        <div class="meta">作者 / 出品<br>日期<br><br>VOL.01 · FEATURE</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 大命题 -->
+  <section class="slide thesis">
+    <div class="pad">
+      <div class="kicker">The Core Thesis · 核心命题</div>
+      <div class="q"><span class="mk">“</span>把最想说的一句话放大</div>
+      <div class="lead">让它成为整页唯一的主角。下面用一两句话把这个论点说清楚,<b>关键词加粗</b>形成视觉重心。</div>
+    </div>
+  </section>
+
+  <!-- 03 目录 -->
+  <section class="slide toc">
+    <div class="pad">
+      <div><div class="kicker">Contents · 本期目录</div><h2 class="display" style="margin-top:8px">目录</h2></div>
+      <div class="grid">
+        <div class="item"><div class="num">01</div><div><div class="tt">章节一</div><div class="desc">一句话描述</div></div></div>
+        <div class="item"><div class="num">02</div><div><div class="tt">章节二</div><div class="desc">一句话描述</div></div></div>
+        <div class="item"><div class="num">03</div><div><div class="tt">章节三</div><div class="desc">一句话描述</div></div></div>
+        <div class="item"><div class="num">04</div><div><div class="tt">章节四</div><div class="desc">一句话描述</div></div></div>
+        <div class="item"><div class="num">05</div><div><div class="tt">章节五</div><div class="desc">一句话描述</div></div></div>
+        <div class="item"><div class="num">06</div><div><div class="tt">章节六</div><div class="desc">一句话描述</div></div></div>
+      </div>
+    </div>
+    <div class="folio l">MAGAZINE · 03</div>
+  </section>
+
+  <!-- 04 卷首语 -->
+  <section class="slide ed">
+    <div class="left">
+      <div class="pad">
+        <div class="kicker">Editor's Note · 卷首语</div>
+        <div class="quote"><span class="mk">“</span>把一句态度强烈的话<br>放大成这一页的主角。</div>
+      </div>
+      <div class="by">—— 署名 / 主编</div>
+    </div>
+    <div class="right">
+      <div class="pad">
+        <div class="runhead"><span>Foreword</span><span><b>01</b> / 06</span></div>
+        <div class="body">
+          <p>正文段落。杂志风讲究"大标题 + 多栏正文 + 首字下沉",首字会被放大形成版面节奏。把开场文字替换到这里。</p>
+          <p>第二段保持不太长,行距宽松、两端对齐,更像印刷物。</p>
+          <p>第三段收束,抛出一个让读者想翻页的问题。</p>
+        </div>
+      </div>
+    </div>
+    <div class="folio r">MAGAZINE · 04</div>
+  </section>
+
+  <!-- 05 表格 -->
+  <section class="slide pg">
+    <div class="pad">
+      <div class="runhead"><span>章节 · Section</span><span><b>表 1</b> / 表格标题</span></div>
+      <div class="head"><div class="kicker">一句副标题</div><h2>用表格讲清楚对比关系</h2></div>
+      <div style="align-self:start;width:100%">
+        <table>
+          <thead><tr><th style="width:22%">维度</th><th style="width:26%">列 A</th><th style="width:26%">列 B</th><th>列 C</th></tr></thead>
+          <tbody>
+            <tr><td><span class="h">行一</span></td><td><span class="hl">关键值</span></td><td>说明文字</td><td>说明文字</td></tr>
+            <tr><td><span class="h">行二</span></td><td><span class="hl2">关键值</span></td><td>说明文字</td><td>说明文字</td></tr>
+            <tr><td><span class="h">行三</span></td><td>说明文字</td><td>说明文字</td><td>说明文字</td></tr>
+          </tbody>
+        </table>
+        <div class="tnote" style="margin-top:12px">注:用斜体小字补充表格的关键判读结论。</div>
+      </div>
+    </div>
+    <div class="folio l">MAGAZINE · 05</div>
+  </section>
+
+  <!-- 06 图文双栏 -->
+  <section class="slide pg split-pg">
+    <div class="pad">
+      <div class="runhead"><span>章节 · Section</span><span><b>图 1</b> / 示意图标题</span></div>
+      <div class="head"><div class="kicker">一句副标题</div><h2>左图右点,讲一条逻辑链</h2></div>
+      <div class="split" style="align-self:center">
+        <div class="fig">
+          <div class="flow">        [ 起点 ]
+            │
+      ┌─────┴─────┐
+   <span class="b">(路径 A)</span>     <span class="a">(路径 B)</span>
+      │           │
+   结果一       结果二</div>
+        </div>
+        <div class="points">
+          <div class="p"><div class="i">1</div><div class="t"><b>要点一。</b>用一句话展开论述。</div></div>
+          <div class="p"><div class="i">2</div><div class="t"><b>要点二。</b>用一句话展开论述。</div></div>
+          <div class="p"><div class="i">3</div><div class="t"><b>要点三。</b>用一句话展开论述。</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="folio r">MAGAZINE · 06</div>
+  </section>
+
+  <!-- 07 数据 / 深底 -->
+  <section class="slide dark">
+    <div class="pad">
+      <div class="runhead"><span>By the Numbers · 数据</span><span>关键指标</span></div>
+      <div style="display:grid;grid-template-rows:auto 1fr;gap:24px">
+        <h2 class="display">关键数字</h2>
+        <div class="stats">
+          <div class="cell"><div class="big">128<small>%</small></div><div class="lbl"><b>增长</b>一句话解释这个数字。</div></div>
+          <div class="cell"><div class="big">3.6<small>万</small></div><div class="lbl"><b>规模</b>第二个核心指标说明。</div></div>
+          <div class="cell"><div class="big">No.1</div><div class="lbl"><b>地位</b>第三个亮点支撑论点。</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="folio r" style="color:#8a8071">MAGAZINE · 07</div>
+  </section>
+
+  <!-- 08 三栏对比 -->
+  <section class="slide pg three">
+    <div class="pad">
+      <div class="runhead"><span>章节 · Section</span><span>三方并列对比</span></div>
+      <div class="head"><div class="kicker">一句副标题</div><h2>A · B · C 三栏</h2></div>
+      <div class="cols" style="align-self:start">
+        <div class="c x"><div class="org">A</div><div class="sub">副标题</div>
+          <div class="row"><div class="k">维度一</div><div class="v">说明文字</div></div>
+          <div class="row"><div class="k">维度二</div><div class="v">说明文字</div></div>
+          <div class="row"><div class="k">维度三</div><div class="v">说明文字</div></div></div>
+        <div class="c y"><div class="org">B</div><div class="sub">副标题</div>
+          <div class="row"><div class="k">维度一</div><div class="v">说明文字</div></div>
+          <div class="row"><div class="k">维度二</div><div class="v">说明文字</div></div>
+          <div class="row"><div class="k">维度三</div><div class="v">说明文字</div></div></div>
+        <div class="c z"><div class="org">C</div><div class="sub">副标题</div>
+          <div class="row"><div class="k">维度一</div><div class="v">说明文字</div></div>
+          <div class="row"><div class="k">维度二</div><div class="v">说明文字</div></div>
+          <div class="row"><div class="k">维度三</div><div class="v">说明文字</div></div></div>
+      </div>
+    </div>
+    <div class="folio l">MAGAZINE · 08</div>
+  </section>
+
+  <!-- 09 封底 -->
+  <section class="slide back">
+    <div class="pad">
+      <div>
+        <div class="kicker">Conclusion · 结论</div>
+        <div class="big">收束的一句话,<br>留下<em>余味</em>。</div>
+        <div class="kw"><span>关键词一</span><span>关键词二</span><span>关键词三</span><span>关键词四</span></div>
+      </div>
+      <div class="foot">
+        <p>总结句、致谢,或下一步的行动号召。把联系方式 / 出品信息放右侧。</p>
+        <div class="tag">出品 / Studio<br>contact@example.com<br>ISSUE 01 — 2026</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="hint">P 全屏播放 · ← → 翻页 · Esc 退出 · Ctrl/⌘+P 导出 PDF</div>
+<script>
+  const body=document.body, slides=[...document.querySelectorAll('.slide')];
+  let i=0, present=false;
+  function fit(){ if(!present)return; const s=Math.min(innerWidth/1280, innerHeight/720);
+    slides.forEach(el=>el.style.setProperty('--s',s)); }
+  function show(n){ i=(n+slides.length)%slides.length;
+    slides.forEach((el,k)=>el.classList.toggle('active',k===i)); }
+  function enter(){ present=true; body.classList.add('present'); show(i); fit(); }
+  function exit(){ present=false; body.classList.remove('present');
+    slides.forEach(el=>el.classList.remove('active')); slides[i].scrollIntoView({block:'center'}); }
+  addEventListener('keydown',e=>{
+    if(e.key==='p'||e.key==='P'){ present?exit():enter(); }
+    else if(e.key==='Escape'&&present){ exit(); }
+    else if(present&&(e.key==='ArrowRight'||e.key===' ')){ e.preventDefault(); show(i+1); }
+    else if(present&&e.key==='ArrowLeft'){ show(i-1); }
+  });
+  addEventListener('resize',fit);
+</script>
+</body>
+</html>
