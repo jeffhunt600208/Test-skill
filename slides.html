@@ -195,6 +195,16 @@
   .back .foot p{font-family:var(--serif);font-size:16px;max-width:560px;line-height:1.6;color:#d8d0c0}
   .back .foot .tag{font-size:12px;letter-spacing:.26em;text-transform:uppercase;color:#b8af9d;text-align:right}
 
+  /* 参考文献 REFS */
+  .refs .pad{display:grid;grid-template-rows:auto auto 1fr;gap:16px}
+  .refs .cols{column-count:2;column-gap:48px;align-self:start;width:100%;margin-top:4px}
+  .refs .r{break-inside:avoid;display:flex;gap:12px;padding:9px 0;border-top:1px solid var(--line)}
+  .refs .r:first-child{border-top:none}
+  .refs .r .i{font-family:var(--display);font-size:15px;color:var(--accent);font-weight:700;min-width:24px}
+  .refs .r .c{font-family:var(--serif);font-size:13.5px;line-height:1.5;color:#3a352d}
+  .refs .r .c b{font-weight:700;color:var(--ink)}
+  .refs .r .c i{font-style:italic;color:#5a5246}
+
   /* 播放 / 打印 */
   body.present{background:#000;overflow:hidden}
   body.present .deck{padding:0;gap:0}
@@ -512,7 +522,29 @@
     <div class="folio r">JUDGMENT OF FORM · 12</div>
   </section>
 
-  <!-- 13 封底 -->
+  <!-- 13 参考文献 -->
+  <section class="slide pg refs">
+    <div class="pad">
+      <div class="runhead"><span>References · 参考文献</span><span>APA 7th</span></div>
+      <div class="head"><div class="kicker">Sources</div><h2>参考文献</h2></div>
+      <div class="cols">
+        <div class="r"><div class="i">1</div><div class="c">EASA. (2019). <i>Special Condition for Small-Category Vertical Take-Off and Landing (VTOL) Aircraft</i> (SC-VTOL-01). European Union Aviation Safety Agency.</div></div>
+        <div class="r"><div class="i">2</div><div class="c">evtol.news. (2019). <i>EASA publishes SC-VTOL</i>. The Vertical Flight Society.</div></div>
+        <div class="r"><div class="i">3</div><div class="c">evtol.news. (2024). <i>EASA and FAA advance eVTOL guidance</i>. The Vertical Flight Society.</div></div>
+        <div class="r"><div class="i">4</div><div class="c">Federal Aviation Administration. (2011). <i>System design and analysis</i> (Advisory Circular No. 25.1309-1A). U.S. Department of Transportation.</div></div>
+        <div class="r"><div class="i">5</div><div class="c">Federal Aviation Administration. (2024a). <i>Type certification—Powered-lift</i> (Advisory Circular No. 21.17-4). U.S. Department of Transportation.</div></div>
+        <div class="r"><div class="i">6</div><div class="c">Federal Aviation Administration. (2024b). <i>Safety continuum for powered-lift</i> (Policy Statement No. PS-AIR-21.17-01). U.S. Department of Transportation.</div></div>
+        <div class="r"><div class="i">7</div><div class="c">International Civil Aviation Organization. (2025). <i>Certification of eVTOL aircraft: Divergence in safety objectives among authorities</i> (Working Paper No. A42-WP/500). ICAO.</div></div>
+        <div class="r"><div class="i">8</div><div class="c">jdasolutions.aero. (2025). <i>FAA issues AC: One method for eVTOL certification</i>. JDA Aviation Technology Solutions.</div></div>
+        <div class="r"><div class="i">9</div><div class="c">Leveson, N. G. (2011). <i>Engineering a safer world: Systems thinking applied to safety</i>. MIT Press.</div></div>
+        <div class="r"><div class="i">10</div><div class="c">SAE International. (2010). <i>Guidelines and methods for conducting the safety assessment process on civil airborne systems and equipment</i> (ARP4761).</div></div>
+        <div class="r"><div class="i">11</div><div class="c">SAE International. (2023). <i>Guidelines for development of civil aircraft and systems</i> (ARP4754B).</div></div>
+      </div>
+    </div>
+    <div class="folio l">JUDGMENT OF FORM · 13</div>
+  </section>
+
+  <!-- 14 封底 -->
   <section class="slide back">
     <div class="pad">
       <div>
